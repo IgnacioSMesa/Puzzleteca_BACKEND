@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RepositorioPuzzle extends JpaRepository<Puzzle, Integer> {
+public interface PuzzleRepository extends JpaRepository<Puzzle, Integer> {
 
     // modificar a futuro
     List<Puzzle> findTop5ByOrderByValoracionDesc();

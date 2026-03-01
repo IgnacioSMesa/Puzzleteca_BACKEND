@@ -2,12 +2,15 @@ package com.ignacio_natalia.api.servicios;
 
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.*;
-import com.ignacio_natalia.api.repositorio.RepositorioPuzzle;
-import com.ignacio_natalia.api.repositorio.RepositorioUsuario;
-import jakarta.persistence.TypedQuery;
+import com.ignacio_natalia.api.repositorio.PuzzleRepository;
+import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Comparator;
 import java.util.List;
@@ -17,39 +20,44 @@ import java.util.List;
 public class InterfazDAOImpl implements InterfazDAO {
 
     @Autowired
-    private final RepositorioUsuario usuarioRepo;
+    private final UsuarioRepository usuarioRepo;
 
     @Autowired
-    private final RepositorioPuzzle puzzleRepo;
+    private final PuzzleRepository puzzleRepo;
+    private final Logger logger = LoggerFactory.getLogger(InterfazDAOImpl.class);
 
-    public InterfazDAOImpl(RepositorioUsuario usuarioRepo, RepositorioPuzzle puzzleRepo) {
+    public InterfazDAOImpl(UsuarioRepository usuarioRepo, PuzzleRepository puzzleRepo) {
         this.usuarioRepo = usuarioRepo;
         this.puzzleRepo = puzzleRepo;
     }
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public void insertarUsuario(Usuario user) throws ArgumentException, DataBaseAccessException, DuplicateEntry, OperationException {
 
-        // Comprobamos que el usuario no sea null
         if (user == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
         try {
-
-            // Comprobamos si existe en la base de datos
+            // Verificamos si ya existe el usuario
             if (usuarioRepo.findUsuarioByEmail(user.getEmail()).isPresent()) {
                 throw new DuplicateEntry(ErrorCode.DUPLICATE_ENTRY);
             }
 
-            // Lo insertamos
+            // Hasheamos la contraseña antes de guardar
+            String hashedPassword = passwordEncoder.encode(user.getPasswd());
+            user.setPasswd(hashedPassword);
+
+            // Insertamos el usuario
             Usuario usuarioGuardado = usuarioRepo.save(user);
 
-            // Comprobamos si el usuario se ha insertado, en caso de que no, lanza excepcion
-            if (usuarioGuardado.getEmail() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
+            if (usuarioGuardado.getEmail() == null || usuarioGuardado.getPasswd() == null) {
+                throw new OperationException(ErrorCode.OPERATION_ERROR);
+            }
 
         } catch (org.springframework.dao.DataAccessException ex) {
+            logger.error("Error de acceso a base de datos al crear usuario {}", user.getEmail(), ex);
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
-
     }
 
     @Override
@@ -186,6 +194,7 @@ public class InterfazDAOImpl implements InterfazDAO {
 
     @Override
     public int mejorTiempo() throws DataBaseAccessException, DataEmptyAccess {
+
         try {
 
             Integer mejor = puzzleRepo.obtenerMejorTiempo();

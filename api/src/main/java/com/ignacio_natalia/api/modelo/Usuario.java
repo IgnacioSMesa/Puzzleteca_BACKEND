@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuarios", schema = "puzzlesbbdd")
+@Table(name = "usuario", schema = "puzzlesbbdd")
 public class Usuario {
 
     public enum TipoUsuario {Admin, Bloqueado, Usuario}

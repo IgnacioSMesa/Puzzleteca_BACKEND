@@ -10,7 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 @Getter
 @Setter
 @Entity
-@Table(name = "puzzles", schema = "puzzlesbbdd")
+@Table(name = "puzzle", schema = "puzzlesbbdd")
 public class Puzzle {
 
     public enum Dificultades {Facil, Medio, Dificil, Extremo}

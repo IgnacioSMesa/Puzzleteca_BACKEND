@@ -10,12 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RepositorioUsuario extends JpaRepository<Usuario, Integer>  {
+public interface UsuarioRepository extends JpaRepository<Usuario, Integer>  {
+
     Optional<Usuario> findUsuarioByEmail(String email);
-
-    boolean existsByEmail (String email);
-
-    void deleteByEmail (String email);
 
     @Modifying
     @Query("DELETE FROM Usuario u WHERE u.email = :email")
