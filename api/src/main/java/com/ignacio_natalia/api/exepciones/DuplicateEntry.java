@@ -1,10 +1,10 @@
 package com.ignacio_natalia.api.exepciones;
 
-public class DuplicateEntry extends Exception {
-    public DuplicateEntry(String message) {
-        super(message);
+public class DuplicateEntry extends ApiException {
+    public DuplicateEntry(ErrorCode errorCode) {
+        super(errorCode);
     }
-    public DuplicateEntry(String message, Throwable cause) {
-        super(message, cause);
+    public DuplicateEntry(ErrorCode errorCode, Throwable cause) {
+        super(errorCode, cause);
     }
 }

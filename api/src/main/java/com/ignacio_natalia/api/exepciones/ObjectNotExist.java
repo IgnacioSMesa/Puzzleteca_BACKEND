@@ -1,10 +1,10 @@
 package com.ignacio_natalia.api.exepciones;
 
-public class ObjectNotExist extends Exception {
-    public ObjectNotExist(String message) {
-        super(message);
+public class ObjectNotExist extends ApiException {
+    public ObjectNotExist(ErrorCode errorCode) {
+        super(errorCode);
     }
-    public ObjectNotExist(String message, Throwable cause) {
-        super(message, cause);
+    public ObjectNotExist(ErrorCode errorCode, Throwable cause) {
+        super(errorCode, cause);
     }
 }

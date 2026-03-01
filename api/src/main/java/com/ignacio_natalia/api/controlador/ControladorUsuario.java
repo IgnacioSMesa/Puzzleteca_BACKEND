@@ -1,10 +1,7 @@
 package com.ignacio_natalia.api.controlador;
 
 import com.ignacio_natalia.api.dto.UsuarioDTO;
-import com.ignacio_natalia.api.exepciones.ArgumentException;
-import com.ignacio_natalia.api.exepciones.DataEmptyAccess;
-import com.ignacio_natalia.api.exepciones.DuplicateEntry;
-import com.ignacio_natalia.api.exepciones.ObjectNotExist;
+import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 
@@ -34,7 +31,7 @@ public class ControladorUsuario {
     // POST /api/usuarios
     @PostMapping("/usuarios")
     public ResponseEntity<Void> crearUsuario(@RequestBody Usuario usuario)
-            throws DuplicateEntry, ArgumentException {
+            throws DuplicateEntry, ArgumentException, DataBaseAccessException, OperationException {
 
         logger.info("Creando usuario con email {}", usuario.getEmail());
         dao.insertarUsuario(usuario);
@@ -44,7 +41,7 @@ public class ControladorUsuario {
     // GET /api/listarUsuarios
     @GetMapping("/listarUsuarios")
     public ResponseEntity<List<UsuarioDTO>> listarUsuarios()
-            throws DataEmptyAccess, ArgumentException {
+            throws DataEmptyAccess, ArgumentException, DataBaseAccessException {
 
         logger.info("Listando usuarios");
         return ResponseEntity.ok(
@@ -63,7 +60,7 @@ public class ControladorUsuario {
     // DELETE /api/usuarios/{email}
     @DeleteMapping("/usuarios/{email}")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable String email)
-            throws ObjectNotExist, ArgumentException {
+            throws ObjectNotExist, ArgumentException, DataBaseAccessException, OperationException {
 
         logger.info("Eliminando usuario con email {}", email);
         dao.eliminarCuenta(email);
@@ -75,7 +72,7 @@ public class ControladorUsuario {
     public ResponseEntity<Void> actualizarUsuario(
             @PathVariable String email,
             @RequestBody Map<String, String> body)
-            throws ObjectNotExist, DataEmptyAccess, ArgumentException {
+            throws ObjectNotExist, DataEmptyAccess, ArgumentException, DataBaseAccessException, OperationException {
 
         logger.info("Actualizando usuario {} - atributo {}", email, body.get("atributo"));
 
@@ -92,7 +89,7 @@ public class ControladorUsuario {
     public ResponseEntity<Void> cambiarEstadoUsuario(
             @PathVariable String email,
             @RequestParam Usuario.TipoUsuario tipo)
-            throws ObjectNotExist, DataEmptyAccess, ArgumentException {
+            throws ObjectNotExist, DataEmptyAccess, ArgumentException, DataBaseAccessException, OperationException {
 
         logger.info("Cambiando estado del usuario {} a {}", email, tipo);
         dao.cambiarEstadoUsuario(email, tipo);

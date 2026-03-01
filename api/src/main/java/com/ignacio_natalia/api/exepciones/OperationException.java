@@ -1,10 +1,10 @@
 package com.ignacio_natalia.api.exepciones;
 
-public class OperationException extends RuntimeException {
-    public OperationException(String message) {
-        super(message);
+public class OperationException extends ApiException {
+    public OperationException(ErrorCode errorCode) {
+        super(errorCode);
     }
-    public OperationException(String message, Throwable cause) {
-        super(message, cause);
+    public OperationException(ErrorCode errorCode, Throwable cause) {
+        super(errorCode, cause);
     }
 }

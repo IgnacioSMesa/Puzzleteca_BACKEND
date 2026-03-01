@@ -1,8 +1,7 @@
 package com.ignacio_natalia.api.exepciones;
 
-public class ArgumentException extends Exception {
-    public ArgumentException(String message) {
-        super(message);
+public class ArgumentException extends ApiException {
+    public ArgumentException(ErrorCode errorCode) {
+        super(errorCode);
     }
-    public ArgumentException(String message, Throwable cause) {super(message, cause);}
 }

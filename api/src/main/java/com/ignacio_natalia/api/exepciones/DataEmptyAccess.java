@@ -1,10 +1,10 @@
 package com.ignacio_natalia.api.exepciones;
 
-public class DataEmptyAccess extends Exception {
-    public DataEmptyAccess(String message) {
-        super(message);
+public class DataEmptyAccess extends ApiException {
+    public DataEmptyAccess(ErrorCode errorCode) {
+        super(errorCode);
     }
-    public DataEmptyAccess(String message, Throwable cause) {
-        super(message, cause);
+    public DataEmptyAccess(ErrorCode errorCode, Throwable cause) {
+        super(errorCode, cause);
     }
 }
