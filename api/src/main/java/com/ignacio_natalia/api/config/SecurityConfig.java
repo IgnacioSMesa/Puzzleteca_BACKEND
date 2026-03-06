@@ -1,6 +1,8 @@
 package com.ignacio_natalia.api.config;
 
+import com.ignacio_natalia.api.servicios.UsuarioDetailsService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan(basePackages = "com.ignacio_natalia.api")
 public class SecurityConfig {
 
     private final UsuarioDetailsService usuarioDetailsService;
