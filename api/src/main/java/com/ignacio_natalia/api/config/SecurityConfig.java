@@ -1,6 +1,5 @@
 package com.ignacio_natalia.api.config;
 
-import com.ignacio_natalia.api.servicios.UsuarioDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
