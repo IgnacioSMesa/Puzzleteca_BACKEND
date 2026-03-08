@@ -1,26 +1,35 @@
 package com.ignacio_natalia.api.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
-@Table(name = "puzzle", schema = "puzzlesbbdd")
+@Table(name = "puzzle", schema = "puzzles")
 public class Puzzle {
 
-    public enum Dificultades {Facil, Medio, Dificil, Extremo}
+    public enum Dificultades {
+        Facil,
+        Media,
+        Dificil,
+        Extremo
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_puzzle", nullable = false)
     private Integer id;
 
-    @Column(name = "autor", length = 50)
+    @Size(max = 150)
+    @Column(name = "autor", length = 150)
     private String autor;
 
     @Column(name = "tiempo")
@@ -30,20 +39,22 @@ public class Puzzle {
     private Integer piezas;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "dificultad", length = 50)
     private Dificultades dificultad;
 
-    @Column(name = "descripcion", length = 5000)
+    @Column(name = "descripcion", length = Integer.MAX_VALUE)
     private String descripcion;
 
     @Column(name = "color")
-    private Boolean color;
+    private boolean color;
 
-    @Column(name = "valoracion")
-    private Integer valoracion;
+    @Column(name = "valoracion", precision = 3, scale = 2)
+    private int valoracion;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
 
 

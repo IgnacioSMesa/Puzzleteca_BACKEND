@@ -9,7 +9,6 @@ import com.ignacio_natalia.api.exepciones.OperationException;
 import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

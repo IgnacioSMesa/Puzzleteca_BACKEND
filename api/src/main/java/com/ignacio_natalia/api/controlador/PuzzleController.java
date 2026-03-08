@@ -1,5 +1,6 @@
 package com.ignacio_natalia.api.controlador;
 
+import com.ignacio_natalia.api.dto.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
@@ -8,11 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/puzzles")
+@RequestMapping("/puzzles")
 public class PuzzleController {
 
     private final InterfazDAO dao;
@@ -30,35 +31,16 @@ public class PuzzleController {
 
     // GET /api/puzzles
     @GetMapping
-    public ResponseEntity<List<Puzzle>> listarPuzzles() throws DataEmptyAccess, ArgumentException, DataBaseAccessException {
-        return ResponseEntity.ok(dao.listarPuzzles());
+    public ResponseEntity<List<PuzzleDTO>> listarPuzzles() throws DataEmptyAccess, ArgumentException, DataBaseAccessException {
+
+        List<Puzzle> puzzles = dao.listarPuzzles();
+        List<PuzzleDTO> puzzleDTOS = new ArrayList<>();
+
+        for (Puzzle puzzle : puzzles) {
+            puzzleDTOS.add(PuzzleDTO.fromEntity(puzzle));
+        }
+
+        return ResponseEntity.ok(puzzleDTOS);
     }
 
-    // PATCH /api/puzzles/{idPuzzle}/usuario/{idUsuario}
-    @PatchMapping("/{idPuzzle}/usuario/{idUsuario}")
-    public ResponseEntity<Void> actualizarPuzzle(
-            @PathVariable Integer idPuzzle,
-            @PathVariable Integer idUsuario,
-            @RequestBody Map<String, String> body) throws ObjectNotExist, DataEmptyAccess, ArgumentException, DataBaseAccessException, OperationException {
-
-        dao.actualizarPuzzle(
-                idUsuario,
-                idPuzzle,
-                body.get("atributo"),
-                body.get("valor")
-        );
-        return ResponseEntity.ok().build();
-    }
-
-    // GET /api/puzzles/top
-    @GetMapping("/top")
-    public ResponseEntity<Puzzle[]> topCinco() throws DataEmptyAccess, ArgumentException, DataBaseAccessException {
-        return ResponseEntity.ok(dao.topCinco());
-    }
-
-    // GET /api/puzzles/mejor-tiempo
-    @GetMapping("/mejor-tiempo")
-    public ResponseEntity<Integer> mejorTiempo() throws DataEmptyAccess, DataBaseAccessException {
-        return ResponseEntity.ok(dao.mejorTiempo());
-    }
 }

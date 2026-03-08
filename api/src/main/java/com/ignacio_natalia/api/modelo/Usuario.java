@@ -1,6 +1,7 @@
 package com.ignacio_natalia.api.modelo;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,32 +12,52 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "usuario", schema = "puzzlesbbdd")
+@Table(name = "usuario", schema = "puzzles")
 public class Usuario {
 
-    public enum TipoUsuario {Admin, Bloqueado, Usuario}
+    public enum TipoUsuario {
+        Usuario,
+        Admin,
+        Bloqueado
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario", nullable = false)
-    private Integer id;
+    private int id;
 
-    @Column(name = "nombre", length = 50)
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "nombre", nullable = false, length = 100)
     private String nombre;
 
-    @Column(name = "apellido", length = 50)
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "apellido", nullable = false, length = 100)
     private String apellido;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Size(max = 150)
+    @NotNull
+    @Column(name = "email", nullable = false, length = 150)
     private String email;
 
-    @Column(name = "passwd", length = 100)
+    @Size(max = 255)
+    @NotNull
+    @Column(name = "passwd", nullable = false)
     private String passwd;
 
     @Enumerated(EnumType.STRING)
-    private TipoUsuario tipousuario;
+    @Column(name = "tipousuario", length = 50)
+    private Usuario.TipoUsuario tipoUsuario;
+
+    @OneToMany(mappedBy = "idUsuario")
+    private Set<Mensaje> mensajes = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "idUsuario")
+    private Set<ParticipantesConversacion> participantesConversacions = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idUsuario")
     private Set<Puzzle> puzzles = new LinkedHashSet<>();
+
 
 }
