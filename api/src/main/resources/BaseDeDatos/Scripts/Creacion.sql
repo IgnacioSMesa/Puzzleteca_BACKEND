@@ -1,5 +1,4 @@
 set search_path to puzzlesbbdd;
-select * from usuario;
 -- ==========================
 -- TABLA USUARIO
 -- ==========================

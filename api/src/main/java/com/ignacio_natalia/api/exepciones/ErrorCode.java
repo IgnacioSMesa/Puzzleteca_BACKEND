@@ -16,6 +16,9 @@ public enum ErrorCode {
     // 409
     DUPLICATE_ENTRY("E409_01", "Registro duplicado", HttpStatus.CONFLICT),
 
+    //410
+    INVALID_PASSWORD("E410_01", "Contraseña inválida", HttpStatus.CONFLICT),
+
     // 500
     DATA_ACCESS_ERROR("E500_01", "Error de acceso a datos", HttpStatus.INTERNAL_SERVER_ERROR),
     OPERATION_ERROR("E500_02", "Error interno de operación", HttpStatus.INTERNAL_SERVER_ERROR);
