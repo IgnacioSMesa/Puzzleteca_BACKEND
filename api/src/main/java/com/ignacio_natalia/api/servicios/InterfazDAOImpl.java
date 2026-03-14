@@ -38,6 +38,7 @@ public class InterfazDAOImpl implements InterfazDAO {
         if (user == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
         try {
+
             // Verificamos si ya existe el usuario
             if (usuarioRepo.findUsuarioByEmail(user.getEmail()).isPresent()) {
                 throw new DuplicateEntry(ErrorCode.DUPLICATE_ENTRY);

@@ -48,7 +48,7 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipousuario", length = 50)
-    private Usuario.TipoUsuario tipoUsuario;
+    private TipoUsuario tipoUsuario = TipoUsuario.Usuario;
 
     @OneToMany(mappedBy = "idUsuario")
     private Set<Mensaje> mensajes = new LinkedHashSet<>();

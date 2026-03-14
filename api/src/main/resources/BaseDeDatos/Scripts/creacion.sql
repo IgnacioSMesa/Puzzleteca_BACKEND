@@ -1,5 +1,6 @@
-CREATE SCHEMA puzzlesbbdd;
-SET search_path TO puzzlesbbdd;
+DROP SCHEMA puzzles CASCADE;
+CREATE SCHEMA puzzles;
+SET search_path TO puzzles;
 
 -- ==========================
 -- TABLA USUARIO
@@ -10,7 +11,7 @@ CREATE TABLE usuario (
     apellido VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     passwd VARCHAR(255) NOT NULL,
-    tipousuario VARCHAR(50) NOT NULL
+    tipousuario VARCHAR(50) DEFAULT 'Usuario'
 );
 
 -- ==========================

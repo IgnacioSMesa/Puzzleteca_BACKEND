@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$PROJECT_DIR$/api/src/main/resources/BaseDeDatos/Scripts/creacion.sql" value="b61de078-aca9-4bb5-b588-14723de222a3" />
+  </component>
+</project>
