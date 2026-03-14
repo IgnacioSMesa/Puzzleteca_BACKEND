@@ -59,5 +59,4 @@ public class Usuario {
     @OneToMany(mappedBy = "idUsuario")
     private Set<Puzzle> puzzles = new LinkedHashSet<>();
 
-
 }

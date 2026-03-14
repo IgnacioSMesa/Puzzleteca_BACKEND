@@ -27,6 +27,7 @@ CREATE TABLE puzzle (
     color BOOLEAN,
     valoracion INT,
     id_usuario BIGINT NOT NULL,
+    imagen_url VARCHAR(1000),
 
     CONSTRAINT fk_puzzle_usuario
         FOREIGN KEY (id_usuario)

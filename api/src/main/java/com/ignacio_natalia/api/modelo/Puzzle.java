@@ -57,5 +57,4 @@ public class Puzzle {
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
 
-
 }
