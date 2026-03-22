@@ -3,6 +3,7 @@ package com.ignacio_natalia.api.controlador;
 import com.ignacio_natalia.api.config.JwtUtil;
 import com.ignacio_natalia.api.dto.LoginRequest;
 import com.ignacio_natalia.api.dto.LoginResponse;
+import com.ignacio_natalia.api.exepciones.DuplicateEntry;
 import com.ignacio_natalia.api.exepciones.ErrorCode;
 import com.ignacio_natalia.api.exepciones.ObjectNotExist;
 import com.ignacio_natalia.api.exepciones.OperationException;
@@ -12,6 +13,8 @@ import com.ignacio_natalia.api.servicios.InterfazDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,13 +38,18 @@ public class UsuarioController {
     private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
 
     @PostMapping("/registrar")
-    public String registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<String> registrarUsuario(@RequestBody Usuario usuario) {
         try {
-            // Llamar al servicio para insertar el usuario en Supabase
             interfazDAO.insertarUsuario(usuario);
-            return "Usuario registrado exitosamente";
+            return ResponseEntity.ok("Usuario registrado exitosamente");
+
+        } catch (DuplicateEntry e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("Ya existe un usuario con ese email");
+
         } catch (Exception e) {
-            return "Error al registrar el usuario: " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al registrar el usuario");
         }
     }
 
