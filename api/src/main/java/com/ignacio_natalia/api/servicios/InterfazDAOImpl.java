@@ -41,6 +41,7 @@ public class InterfazDAOImpl implements InterfazDAO {
 
             // Verificamos si ya existe el usuario
             if (usuarioRepo.findUsuarioByEmail(user.getEmail()).isPresent()) {
+                System.out.println("Estoy en el if de duplicados, lanzo excepcion");
                 throw new DuplicateEntry(ErrorCode.DUPLICATE_ENTRY);
             }
 
@@ -184,13 +185,6 @@ public class InterfazDAOImpl implements InterfazDAO {
     @Override
     public void cambiarEstadoUsuario(String email, Usuario.TipoUsuario tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess, ObjectNotExist, OperationException {
 
-    }
-
-    @Override
-    public Puzzle[] topCinco() throws ArgumentException, DataBaseAccessException, DataEmptyAccess {
-        List<Puzzle> puzzles = listarPuzzles();
-        puzzles.sort(Comparator.comparingDouble(Puzzle::getValoracion).reversed());
-        return puzzles.stream().limit(5).toArray(Puzzle[]::new);
     }
 
     @Override

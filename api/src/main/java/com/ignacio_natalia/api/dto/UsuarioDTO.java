@@ -17,4 +17,16 @@ public class UsuarioDTO {
     private String apellido;
     private String email;
     private Usuario.TipoUsuario tipoUsuario;
+
+    public static UsuarioDTO fromEntity(Usuario usuario) {
+        if (usuario == null) return null;
+
+        return new UsuarioDTO(
+                usuario.getId(),
+                usuario.getNombre(),
+                usuario.getApellido(),
+                usuario.getEmail(),
+                usuario.getTipoUsuario()
+        );
+    }
 }

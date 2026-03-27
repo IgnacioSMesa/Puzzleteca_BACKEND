@@ -104,16 +104,6 @@ public interface InterfazDAO {
     void cambiarEstadoUsuario(String email, Usuario.TipoUsuario tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess, ObjectNotExist, OperationException;
 
     /**
-     * Obtiene los cinco puzzles mejor valorados.
-     *
-     * @return array de Puzzle con los cinco puzzles mejor valorados
-     * @throws ArgumentException si ocurre un error en los argumentos
-     * @throws DataBaseAccessException si ocurre un error de acceso a datos
-     * @throws DataEmptyAccess si no existen datos
-     */
-    Puzzle[] topCinco() throws ArgumentException, DataBaseAccessException, DataEmptyAccess;
-
-    /**
      * Obtiene el mejor tiempo registrado en la resolución de puzzles.
      *
      * @return int que representa el mejor tiempo
