@@ -51,6 +51,9 @@ public class Puzzle {
     @Column(name = "valoracion", precision = 3, scale = 2)
     private int valoracion;
 
+    @Column(name = "imagen_url", columnDefinition = "TEXT")
+    private String imagen;
+
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

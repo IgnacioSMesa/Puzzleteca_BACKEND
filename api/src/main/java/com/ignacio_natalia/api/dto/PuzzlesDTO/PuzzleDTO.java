@@ -1,4 +1,4 @@
-package com.ignacio_natalia.api.dto;
+package com.ignacio_natalia.api.dto.PuzzlesDTO;
 
 import com.ignacio_natalia.api.modelo.Puzzle;
 import lombok.AllArgsConstructor;

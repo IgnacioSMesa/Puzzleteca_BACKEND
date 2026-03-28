@@ -1,4 +1,4 @@
-package com.ignacio_natalia.api.dto;
+package com.ignacio_natalia.api.dto.Login;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

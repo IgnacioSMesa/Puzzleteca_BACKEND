@@ -1,6 +1,7 @@
 package com.ignacio_natalia.api.controlador;
 
-import com.ignacio_natalia.api.dto.PuzzleDTO;
+import com.ignacio_natalia.api.dto.PuzzlesDTO.ActualizarPuzzleDTO;
+import com.ignacio_natalia.api.dto.PuzzlesDTO.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -54,6 +54,34 @@ public class PuzzleController {
     }
 
     // Actualizar puzzle
-    // Mejor tiempo
+    @PostMapping("/actualizarPuzzle")
+    public ResponseEntity<?> actualizarPuzzle(@RequestBody ActualizarPuzzleDTO dto) {
+
+        try {
+
+            dao.actualizarPuzzle(dto.getIdUsuario(), dto.getIdPuzzle(), dto.getAtributo(), dto.getCambio());
+            return ResponseEntity.ok().build();
+
+        } catch (ArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Los datos enviados no son válidos", 400));
+
+        } catch (ObjectNotExist ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("El puzzle no existe o no pertenece al usuario", 404));
+
+        } catch (DataEmptyAccess ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("El puzzle ya tiene ese valor, no hay nada que actualizar", 409));
+
+        } catch (DataBaseAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 500));
+
+        } catch (OperationException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al actualizar el puzzle", 500));
+        }
+    }
 
 }

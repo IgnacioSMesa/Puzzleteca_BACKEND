@@ -5,15 +5,13 @@ import com.ignacio_natalia.api.modelo.*;
 import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Service // lógica de negocio
 @Transactional // si algo falla deshace todo
@@ -24,13 +22,13 @@ public class InterfazDAOImpl implements InterfazDAO {
 
     @Autowired
     private final PuzzleRepository puzzleRepo;
-    private final Logger logger = LoggerFactory.getLogger(InterfazDAOImpl.class);
+    //private final Logger logger = LoggerFactory.getLogger(InterfazDAOImpl.class);
 
     public InterfazDAOImpl(UsuarioRepository usuarioRepo, PuzzleRepository puzzleRepo) {
         this.usuarioRepo = usuarioRepo;
         this.puzzleRepo = puzzleRepo;
     }
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public void insertarUsuario(Usuario user) throws ArgumentException, DataBaseAccessException, DuplicateEntry, OperationException {
@@ -57,7 +55,6 @@ public class InterfazDAOImpl implements InterfazDAO {
             }
 
         } catch (org.springframework.dao.DataAccessException ex) {
-            logger.error("Error de acceso a base de datos al crear usuario {}", user.getEmail(), ex);
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
     }
@@ -66,35 +63,40 @@ public class InterfazDAOImpl implements InterfazDAO {
     public void insertarPuzzle(Puzzle puzzle) throws ArgumentException, DataBaseAccessException, OperationException {
 
         if (puzzle == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        Puzzle puzzleGuardado;
 
         try {
 
-            Puzzle puzzleGuardado = puzzleRepo.save(puzzle);
-
-            if (puzzleGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
+            puzzleGuardado = puzzleRepo.save(puzzle);
 
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
+
+        if (puzzleGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
 
     }
 
     @Override
     public void eliminarCuenta(String email) throws ArgumentException, DataBaseAccessException, ObjectNotExist, OperationException {
 
-        if (email.isEmpty()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (email == null || email.isEmpty()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        Optional<Usuario> usuario;
+        int filasAfectadas;
 
         try {
 
-            int filasAfectadas = usuarioRepo.deleteByEmailReturnCount(email);
+            usuario = usuarioRepo.findUsuarioByEmail(email);
+            if (usuario.isEmpty()) throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
 
-            if (filasAfectadas == 0) {
-                throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
-            }
+            filasAfectadas = usuarioRepo.deleteByEmailReturnCount(email);
 
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
+
+        if (filasAfectadas == 0) throw new OperationException(ErrorCode.OPERATION_ERROR);
 
     }
 
@@ -104,46 +106,146 @@ public class InterfazDAOImpl implements InterfazDAO {
         if (email == null || email.isBlank()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
         if (atributo == null || atributo.isBlank() || cambio == null || cambio.isBlank()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
+        Optional<Usuario> usuarioOpt;
+
+        try {
+            usuarioOpt = usuarioRepo.findUsuarioByEmail(email);
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+        }
+
+        if (usuarioOpt.isEmpty()) throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
+
+        Usuario usuarioActualizar = usuarioOpt.get();
+        boolean actualizado = false;
+
+        switch (atributo) {
+            case "nombre":
+                if (!cambio.equals(usuarioActualizar.getNombre())) {
+                    usuarioActualizar.setNombre(cambio);
+                    actualizado = true;
+                }
+                break;
+            case "apellido":
+                if (!cambio.equals(usuarioActualizar.getApellido())) {
+                    usuarioActualizar.setApellido(cambio);
+                    actualizado = true;
+                }
+                break;
+            default:
+                throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        }
+
+        if (!actualizado) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+
+        Usuario usuarioGuardado;
+
         try {
 
-            Usuario usuarioActualizar = usuarioRepo.findUsuarioByEmail(email).orElseThrow(() -> new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND));
-
-            boolean actualizado = false;
-
-            switch (atributo) {
-
-                case "nombre":
-
-                    if (!cambio.equals(usuarioActualizar.getNombre())) {
-                        usuarioActualizar.setNombre(cambio);
-                        actualizado = true;
-                    }
-                    break;
-
-                case "apellido":
-                    if (!cambio.equals(usuarioActualizar.getApellido())) {
-                        usuarioActualizar.setApellido(cambio);
-                        actualizado = true;
-                    }
-                    break;
-
-                default:
-                    throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
-
-            }
-
-            if (!actualizado) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
-
-            usuarioRepo.save(usuarioActualizar);
+            usuarioGuardado = usuarioRepo.save(usuarioActualizar);
 
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
 
+        if (usuarioGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
+
     }
 
     @Override
     public void actualizarPuzzle(Integer id_usuario, Integer id_puzzle, String atributo, String cambio) throws ArgumentException, DataBaseAccessException, DataEmptyAccess, ObjectNotExist, OperationException {
+
+        if (id_usuario == null || id_puzzle == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (atributo == null || atributo.isBlank() || cambio == null || cambio.isBlank()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        Optional<Puzzle> puzzleOpt;
+
+        try {
+
+            puzzleOpt = puzzleRepo.findByIdAndUsuarioId(id_puzzle, id_usuario);
+
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+
+        }
+
+        if (puzzleOpt.isEmpty()) throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
+
+        Puzzle puzzle = puzzleOpt.get();
+        boolean actualizado = false;
+
+        switch (atributo) {
+            case "autor":
+                if (!cambio.equals(puzzle.getAutor())) {
+                    puzzle.setAutor(cambio);
+                    actualizado = true;
+                }
+                break;
+
+            case "tiempo":
+                Integer nuevoTiempo = Integer.parseInt(cambio);
+                if (!nuevoTiempo.equals(puzzle.getTiempo())) {
+                    puzzle.setTiempo(nuevoTiempo);
+                    actualizado = true;
+                }
+                break;
+
+            case "piezas":
+                Integer nuevasPiezas = Integer.parseInt(cambio);
+                if (!nuevasPiezas.equals(puzzle.getPiezas())) {
+                    puzzle.setPiezas(nuevasPiezas);
+                    actualizado = true;
+                }
+                break;
+
+            case "dificultad":
+                Puzzle.Dificultades nuevaDificultad = Puzzle.Dificultades.valueOf(cambio);
+                if (!nuevaDificultad.equals(puzzle.getDificultad())) {
+                    puzzle.setDificultad(nuevaDificultad);
+                    actualizado = true;
+                }
+                break;
+
+            case "descripcion":
+                if (!cambio.equals(puzzle.getDescripcion())) {
+                    puzzle.setDescripcion(cambio);
+                    actualizado = true;
+                }
+                break;
+
+            case "color":
+                boolean nuevoColor = Boolean.parseBoolean(cambio);
+                if (nuevoColor != puzzle.isColor()) {
+                    puzzle.setColor(nuevoColor);
+                    actualizado = true;
+                }
+                break;
+
+            case "valoracion":
+                int nuevaValoracion = Integer.parseInt(cambio);
+                if (nuevaValoracion != puzzle.getValoracion()) {
+                    puzzle.setValoracion(nuevaValoracion);
+                    actualizado = true;
+                }
+                break;
+            default:
+                throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        }
+
+        if (!actualizado) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+
+        Puzzle puzzleGuardado;
+
+        try {
+
+            puzzleGuardado = puzzleRepo.save(puzzle);
+
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+
+        }
+
+        if (puzzleGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
 
     }
 
@@ -184,6 +286,35 @@ public class InterfazDAOImpl implements InterfazDAO {
 
     @Override
     public void cambiarEstadoUsuario(String email, Usuario.TipoUsuario tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess, ObjectNotExist, OperationException {
+
+        if (email == null || email.isBlank()) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (tipo == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        Optional<Usuario> usuarioOpt;
+
+        try {
+            usuarioOpt = usuarioRepo.findUsuarioByEmail(email);
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+        }
+
+        if (usuarioOpt.isEmpty()) throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
+
+        Usuario usuario = usuarioOpt.get();
+
+        if (usuario.getTipoUsuario().equals(tipo)) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+
+        usuario.setTipoUsuario(tipo);
+
+        Usuario usuarioGuardado;
+
+        try {
+            usuarioGuardado = usuarioRepo.save(usuario);
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+        }
+
+        if (usuarioGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
 
     }
 

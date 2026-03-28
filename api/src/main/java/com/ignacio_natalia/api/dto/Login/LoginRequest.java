@@ -1,4 +1,4 @@
-package com.ignacio_natalia.api.dto;
+package com.ignacio_natalia.api.dto.Login;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

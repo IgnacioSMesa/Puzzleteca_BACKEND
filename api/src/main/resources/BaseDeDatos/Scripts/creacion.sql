@@ -18,7 +18,7 @@ CREATE TABLE usuario (
 -- TABLA PUZZLE
 -- ==========================
 CREATE TABLE puzzle (
-    id_puzzle BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_puzzle INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     autor VARCHAR(150),
     tiempo INT,
     piezas INT,
@@ -26,8 +26,8 @@ CREATE TABLE puzzle (
     descripcion TEXT,
     color BOOLEAN,
     valoracion INT,
-    id_usuario BIGINT NOT NULL,
-    imagen_url VARCHAR(1000),
+    id_usuario INT NOT NULL,
+    imagen_url TEXT DEFAULT NULL,
 
     CONSTRAINT fk_puzzle_usuario
         FOREIGN KEY (id_usuario)

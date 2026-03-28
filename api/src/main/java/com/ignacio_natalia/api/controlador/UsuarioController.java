@@ -1,9 +1,10 @@
 package com.ignacio_natalia.api.controlador;
 
 import com.ignacio_natalia.api.config.JwtUtil;
-import com.ignacio_natalia.api.dto.LoginRequest;
-import com.ignacio_natalia.api.dto.LoginResponse;
-import com.ignacio_natalia.api.dto.UsuarioDTO;
+import com.ignacio_natalia.api.dto.Login.LoginRequest;
+import com.ignacio_natalia.api.dto.Login.LoginResponse;
+import com.ignacio_natalia.api.dto.UsuariosDTO.ActualizarUsuarioDTO;
+import com.ignacio_natalia.api.dto.UsuariosDTO.UsuarioDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
@@ -37,7 +38,6 @@ public class UsuarioController {
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
-
         try {
             interfazDAO.insertarUsuario(usuario);
             return ResponseEntity.ok("Usuario registrado exitosamente");
@@ -69,7 +69,7 @@ public class UsuarioController {
                         .body(new ErrorResponse("Contraseña incorrecta", 401));
             }
 
-            String token = JwtUtil.generarToken(user.getEmail());
+            String token = JwtUtil.generarToken(user.getEmail(), user.getTipoUsuario());
             logger.info("Token generado: {}", token);
 
             return ResponseEntity.ok(new LoginResponse(token));
@@ -79,30 +79,105 @@ public class UsuarioController {
                     .body(new ErrorResponse("Error en el login", 500));
         }
     }
-    // Actualizar campos
-    // Bloquear o desbloquear usuario
-    // Contraseña olvidada (se puede usar mismo end point que bloquear y desbloquear [hablar])
-    // Eliminar cuenta
 
-    // Listar usuarios
     @GetMapping("/listarUsuarios")
     public ResponseEntity<?> listarUsuarios() {
         try {
-
             List<Usuario> usuarios = interfazDAO.listarUsuarios();
             List<UsuarioDTO> usuarioDTOS = usuarios.stream()
                     .map(UsuarioDTO::fromEntity)
                     .toList();
 
             return ResponseEntity.ok(usuarioDTOS);
-        } catch (DataBaseAccessException db) {
+
+        } catch (DataBaseAccessException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ErrorResponse("Error al conectar con la base de datos", 409));
 
-        } catch (DataEmptyAccess e) {
+        } catch (DataEmptyAccess ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("No hay usuarios registrados", 404));
         }
     }
 
+    @PutMapping("/actualizarUsuario")
+    public ResponseEntity<?> actualizarUsuario(@RequestBody ActualizarUsuarioDTO dto) {
+        try {
+
+            interfazDAO.actualizarUsuario(dto.getEmail(), dto.getAtributo(), dto.getCambio());
+            return ResponseEntity.ok().build();
+
+        } catch (ArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Los datos enviados no son válidos", 400));
+
+        } catch (ObjectNotExist ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Usuario no encontrado", 404));
+
+        } catch (DataEmptyAccess ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("El usuario ya tiene ese valor, no hay nada que actualizar", 409));
+
+        } catch (DataBaseAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 500));
+
+        } catch (OperationException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al actualizar el usuario", 500));
+        }
+    }
+
+    @PutMapping("/cambiarEstado")
+    public ResponseEntity<?> cambiarEstado(@RequestParam String email, @RequestParam Usuario.TipoUsuario tipo) {
+        try {
+            interfazDAO.cambiarEstadoUsuario(email, tipo);
+            return ResponseEntity.ok().build();
+
+        } catch (ArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Los datos enviados no son válidos", 400));
+
+        } catch (ObjectNotExist ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Usuario no encontrado", 404));
+
+        } catch (DataEmptyAccess ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("El usuario ya tiene ese estado", 409));
+
+        } catch (DataBaseAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 500));
+
+        } catch (OperationException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al cambiar el estado del usuario", 500));
+        }
+    }
+
+    @DeleteMapping("/eliminarCuenta")
+    public ResponseEntity<?> eliminarCuenta(@RequestParam String email) {
+        try {
+            interfazDAO.eliminarCuenta(email);
+            return ResponseEntity.ok().build();
+
+        } catch (ArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Los datos enviados no son válidos", 400));
+
+        } catch (ObjectNotExist ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Usuario no encontrado", 404));
+
+        } catch (DataBaseAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 500));
+
+        } catch (OperationException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al eliminar la cuenta", 500));
+        }
+    }
 }

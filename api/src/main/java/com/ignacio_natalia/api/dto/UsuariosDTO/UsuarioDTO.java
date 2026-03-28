@@ -1,4 +1,4 @@
-package com.ignacio_natalia.api.dto;
+package com.ignacio_natalia.api.dto.UsuariosDTO;
 
 import com.ignacio_natalia.api.modelo.Usuario;
 import lombok.AllArgsConstructor;
