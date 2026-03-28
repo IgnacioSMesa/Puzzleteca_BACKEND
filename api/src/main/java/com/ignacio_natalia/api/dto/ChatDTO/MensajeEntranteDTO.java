@@ -10,7 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 
 // MensajeEntranteDTO.java — lo que envía el cliente
+// MensajeEntranteDTO — añade email
 public class MensajeEntranteDTO {
     private Long idConversacion;
     private String contenido;
+    private String email;  // añadir
 }

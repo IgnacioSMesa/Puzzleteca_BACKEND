@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
@@ -37,21 +38,20 @@ public class ChatController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chat.enviar")
-    public void enviarMensaje(@Payload MensajeEntranteDTO dto, Principal principal) {
+    public void enviarMensaje(@Payload MensajeEntranteDTO dto) {  // quita Principal
 
-        // Obtenemos el usuario por el email del JWT
-        Optional<Usuario> usuarioOpt = usuarioRepo.findUsuarioByEmail(principal.getName());
+        if (dto.getEmail() == null) return;
+
+        Optional<Usuario> usuarioOpt = usuarioRepo.findUsuarioByEmail(dto.getEmail());
         if (usuarioOpt.isEmpty()) return;
 
         Usuario usuario = usuarioOpt.get();
 
-        // Verificar que es participante de la conversación
         boolean esParticipante = participantesRepo
                 .existsByIdConversationIdAndIdUsuarioId(dto.getIdConversacion(), usuario.getId());
 
         if (!esParticipante) return;
 
-        // Guardar mensaje en BD
         Mensaje mensaje = new Mensaje();
         mensaje.setContenido(dto.getContenido());
         mensaje.setIdConversation(conversacionRepo.getReferenceById(dto.getIdConversacion()));
@@ -59,17 +59,17 @@ public class ChatController {
         mensaje.setCreadoEn(OffsetDateTime.now());
         mensajeRepo.save(mensaje);
 
-        // Construir respuesta
         MensajeSalienteDTO saliente = new MensajeSalienteDTO();
         saliente.setIdMensaje(mensaje.getId());
         saliente.setIdConversacion(dto.getIdConversacion());
         saliente.setIdUsuario(usuario.getId());
+        saliente.setNombre(usuario.getNombre());
         saliente.setContenido(mensaje.getContenido());
         saliente.setCreadoEn(mensaje.getCreadoEn());
 
-        // Enviar a todos los suscritos a esa conversación
         messagingTemplate.convertAndSend(
                 "/topic/conversacion/" + dto.getIdConversacion(), saliente
         );
+
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface MensajeRepository extends JpaRepository<Mensaje, Integer> {
-    List<Mensaje> findByConversacionIdOrderByCreadoEnAsc(Integer idConversacion);
+public interface MensajeRepository extends JpaRepository<Mensaje, Long> {
+
+    List<Mensaje> findByIdConversationIdOrderByCreadoEnAsc(Long idConversacion);
+
 }
+

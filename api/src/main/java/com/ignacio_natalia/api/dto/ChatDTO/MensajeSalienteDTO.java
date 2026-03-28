@@ -17,6 +17,7 @@ public class MensajeSalienteDTO {
     private Long idMensaje;
     private Long idConversacion;
     private Integer idUsuario;
+    private String nombre;   // añadir
     private String contenido;
     private OffsetDateTime creadoEn;
 }
