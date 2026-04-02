@@ -26,6 +26,7 @@ CREATE TABLE puzzle (
     descripcion TEXT,
     color BOOLEAN,
     valoracion INT,
+    estado text,
     id_usuario INT NOT NULL,
     imagen_url TEXT DEFAULT NULL,
 

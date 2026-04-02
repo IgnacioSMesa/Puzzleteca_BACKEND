@@ -23,6 +23,12 @@ public class Puzzle {
         Extremo
     }
 
+    public enum Estados {
+        Publico,
+        Privado,
+        Bloqueado
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_puzzle", nullable = false)
@@ -53,6 +59,11 @@ public class Puzzle {
 
     @Column(name = "imagen_url", columnDefinition = "TEXT")
     private String imagen;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", length = 50)
+    private Estados estado;
+
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

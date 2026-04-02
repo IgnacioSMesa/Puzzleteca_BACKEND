@@ -72,7 +72,7 @@ public class UsuarioController {
             String token = JwtUtil.generarToken(user.getEmail(), user.getTipoUsuario());
             logger.info("Token generado: {}", token);
 
-            return ResponseEntity.ok(new LoginResponse(token));
+            return ResponseEntity.ok(new LoginResponse(token, user.getTipoUsuario().name()));
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

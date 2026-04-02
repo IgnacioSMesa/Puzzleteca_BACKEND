@@ -20,6 +20,7 @@ public class PuzzleDTO {
     private String descripcion;
     private Boolean color;
     private Integer valoracion;
+    private Puzzle.Estados estado;
     private Integer idUsuario;
 
     public static PuzzleDTO fromEntity(Puzzle puzzle) {
@@ -34,6 +35,7 @@ public class PuzzleDTO {
         dto.setDescripcion(puzzle.getDescripcion());
         dto.setColor(puzzle.isColor());
         dto.setValoracion(puzzle.getValoracion());
+        dto.setEstado(puzzle.getEstado());
         dto.setIdUsuario(usuarioId);
         return dto;
     }
