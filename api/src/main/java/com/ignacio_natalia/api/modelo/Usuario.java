@@ -16,6 +16,7 @@ import java.util.Set;
 public class Usuario {
 
     public enum TipoUsuario {
+        Invitado,
         Usuario,
         Admin,
         Bloqueado
