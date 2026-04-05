@@ -25,8 +25,8 @@ public class EmailService {
 
         helper.setTo(emailDestino);
         helper.setSubject("Tu acceso a Puzzleteca");
-        helper.setFrom("TU_EMAIL@gmail.com", "Puzzleteca");
-        helper.setReplyTo("TU_EMAIL@gmail.com");
+        helper.setFrom("puzzletecasupport@gmail.com", "Puzzleteca");
+        helper.setReplyTo("puzzletecasupport@gmail.com");
 
         String contenido =
                 "<html>" +
