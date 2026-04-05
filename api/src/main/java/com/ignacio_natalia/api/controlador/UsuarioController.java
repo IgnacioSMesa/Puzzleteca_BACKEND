@@ -1,6 +1,8 @@
 package com.ignacio_natalia.api.controlador;
 
 import com.ignacio_natalia.api.config.JwtUtil;
+import com.ignacio_natalia.api.dto.EmailDTO.ConfirmarCambioPasswordDTO;
+import com.ignacio_natalia.api.dto.EmailDTO.SolicitarCodigoDTO;
 import com.ignacio_natalia.api.dto.Login.LoginRequest;
 import com.ignacio_natalia.api.dto.Login.LoginResponse;
 import com.ignacio_natalia.api.dto.UsuariosDTO.ActualizarUsuarioDTO;
@@ -9,6 +11,8 @@ import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
+import com.ignacio_natalia.api.servicios.CodigoVerificacionStore;
+import com.ignacio_natalia.api.servicios.EmailService;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +38,12 @@ public class UsuarioController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private CodigoVerificacionStore codigoStore;
 
     private static final Logger logger = LoggerFactory.getLogger(UsuarioController.class);
 
@@ -179,5 +190,73 @@ public class UsuarioController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error al eliminar la cuenta", 500));
         }
+    }
+
+    @PostMapping("/recuperarPassword/solicitarCodigo")
+    public ResponseEntity<?> solicitarCodigo(@RequestBody SolicitarCodigoDTO dto) {
+
+        if (dto.getEmail() == null || dto.getEmail().isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("El email no puede estar vacío", 400));
+        }
+
+        Optional<Usuario> usuarioOpt = usuarioRepository.findUsuarioByEmail(dto.getEmail());
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.ok().build(); // 🔥 no revela info
+        }
+
+        String codigo = String.format("%06d", new SecureRandom().nextInt(1_000_000));
+        codigoStore.guardar(dto.getEmail(), codigo);
+
+        ResponseEntity<?> response = ResponseEntity.ok().build();
+
+        try {
+            emailService.enviarCodigoVerificacion(dto.getEmail(), codigo);
+        } catch (Exception ex) {
+            logger.error("Error al enviar correo: {}", ex.getMessage());
+        }
+
+        return response;
+    }
+    @PostMapping("/recuperarPassword/confirmar")
+    public ResponseEntity<?> confirmarCambioPassword(@RequestBody ConfirmarCambioPasswordDTO dto) {
+
+        if (dto.getEmail() == null || dto.getEmail().isBlank()
+                || dto.getCodigo() == null || dto.getCodigo().isBlank()
+                || dto.getNuevaPassword() == null || dto.getNuevaPassword().isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Todos los campos son obligatorios", 400));
+        }
+
+        if (dto.getNuevaPassword().length() < 6) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("La contraseña debe tener al menos 6 caracteres", 400));
+        }
+
+        if (!codigoStore.validar(dto.getEmail(), dto.getCodigo())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new ErrorResponse("Código incorrecto o expirado", 401));
+        }
+
+        Optional<Usuario> usuarioOpt = usuarioRepository.findUsuarioByEmail(dto.getEmail());
+        if (usuarioOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("Usuario no encontrado", 404));
+        }
+
+        Usuario usuario = usuarioOpt.get();
+        usuario.setPasswd(passwordEncoder.encode(dto.getNuevaPassword()));
+
+        try {
+            usuarioRepository.save(usuario);
+        } catch (Exception ex) {
+            logger.error("Error al guardar la nueva contraseña para {}: {}", dto.getEmail(), ex.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al actualizar la contraseña", 500));
+        }
+
+        codigoStore.eliminar(dto.getEmail());
+        logger.info("Contraseña actualizada correctamente para: {}", dto.getEmail());
+        return ResponseEntity.ok("Contraseña actualizada correctamente");
     }
 }
