@@ -41,7 +41,7 @@ public class EmailService {
 
                         "<table width='100%' cellpadding='0' cellspacing='0' style='max-width:600px; background:white; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1);'>" +
 
-                        "<tr><td style='background-color:#2e7d32; padding:25px 20px; text-align:center;'>" +
+                        "<tr><td style='background-color:#B8E6A5; padding:25px 20px; text-align:center;'>" +
                         "<img src='cid:logoPuzzleteca' style='width:100%; max-width:180px; height:auto;'/>" +
                         "</td></tr>" +
 

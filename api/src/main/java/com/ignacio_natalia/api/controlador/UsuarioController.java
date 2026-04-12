@@ -113,6 +113,7 @@ public class UsuarioController {
 
     @PutMapping("/actualizarUsuario")
     public ResponseEntity<?> actualizarUsuario(@RequestBody ActualizarUsuarioDTO dto) {
+
         try {
 
             interfazDAO.actualizarUsuario(dto.getEmail(), dto.getAtributo(), dto.getCambio());
@@ -142,6 +143,7 @@ public class UsuarioController {
 
     @PutMapping("/cambiarEstado")
     public ResponseEntity<?> cambiarEstado(@RequestParam String email, @RequestParam Usuario.TipoUsuario tipo) {
+
         try {
             interfazDAO.cambiarEstadoUsuario(email, tipo);
             return ResponseEntity.ok().build();
@@ -202,7 +204,7 @@ public class UsuarioController {
 
         Optional<Usuario> usuarioOpt = usuarioRepository.findUsuarioByEmail(dto.getEmail());
         if (usuarioOpt.isEmpty()) {
-            return ResponseEntity.ok().build(); // 🔥 no revela info
+            return ResponseEntity.ok().build();
         }
 
         String codigo = String.format("%06d", new SecureRandom().nextInt(1_000_000));
@@ -218,6 +220,7 @@ public class UsuarioController {
 
         return response;
     }
+
     @PostMapping("/recuperarPassword/confirmar")
     public ResponseEntity<?> confirmarCambioPassword(@RequestBody ConfirmarCambioPasswordDTO dto) {
 

@@ -19,6 +19,7 @@ CREATE TABLE usuario (
 -- ==========================
 CREATE TABLE puzzle (
     id_puzzle INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    titulo VARCHAR (150),
     autor VARCHAR(150),
     tiempo INT,
     piezas INT,
