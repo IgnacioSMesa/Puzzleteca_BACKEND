@@ -13,10 +13,11 @@ public class JwtUtil {
 
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public static String generarToken(String email, Usuario.TipoUsuario tipoUsuario) {
+    public static String generarToken(String email, Integer id_usuario, Usuario.TipoUsuario tipoUsuario) {
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("id_usuario", id_usuario)
                 .claim("tipoUsuario", tipoUsuario.name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))

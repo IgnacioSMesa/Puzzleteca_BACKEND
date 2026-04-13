@@ -6,16 +6,25 @@ import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 @Service // lógica de negocio
 @Transactional // si algo falla deshace todo
 public class InterfazDAOImpl implements InterfazDAO {
+
+    @Value("${app.upload.dir}")
+    private String uploadDir;
 
     @Autowired
     private final UsuarioRepository usuarioRepo;
@@ -60,21 +69,55 @@ public class InterfazDAOImpl implements InterfazDAO {
     }
 
     @Override
-    public void insertarPuzzle(Puzzle puzzle) throws ArgumentException, DataBaseAccessException, OperationException {
+    public void insertarPuzzle(Puzzle puzzle)
+            throws ArgumentException, DataBaseAccessException, OperationException {
 
-        if (puzzle == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
-        Puzzle puzzleGuardado;
+        if (puzzle == null) {
+            throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        }
 
         try {
 
-            puzzleGuardado = puzzleRepo.save(puzzle);
+            if (puzzle.getImagenBase64() != null) {
+
+                byte[] imagenBytes =
+                        Base64.getDecoder().decode(puzzle.getImagenBase64());
+
+                Files.createDirectories(Paths.get(uploadDir));
+
+                String nombreArchivo =
+                        "puzzle_" + System.currentTimeMillis() + ".png";
+
+                Path ruta = Paths.get(uploadDir + nombreArchivo);
+
+                Files.write(ruta, imagenBytes);
+
+                puzzle.setImagen("/imagenes/" + nombreArchivo);
+            }
+
+            Usuario usuario = usuarioRepo.findById(
+                    puzzle.getIdUsuario().getId()
+            ).orElseThrow(() ->
+                    new ArgumentException(ErrorCode.INVALID_ARGUMENT)
+            );
+
+            puzzle.setIdUsuario(usuario);
+
+            Puzzle guardado = puzzleRepo.save(puzzle);
+
+            if (guardado.getId() == null) {
+                throw new OperationException(ErrorCode.OPERATION_ERROR);
+            }
+
+        } catch (IllegalArgumentException e) {
+            throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        } catch (IOException e) {
+            throw new OperationException(ErrorCode.OPERATION_ERROR);
 
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
-
-        if (puzzleGuardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
-
     }
 
     @Override

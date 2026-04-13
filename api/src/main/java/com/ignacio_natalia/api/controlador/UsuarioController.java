@@ -80,7 +80,7 @@ public class UsuarioController {
                         .body(new ErrorResponse("Contraseña incorrecta", 401));
             }
 
-            String token = JwtUtil.generarToken(user.getEmail(), user.getTipoUsuario());
+            String token = JwtUtil.generarToken(user.getEmail(), user.getId() ,user.getTipoUsuario());
             logger.info("Token generado: {}", token);
 
             return ResponseEntity.ok(new LoginResponse(token, user.getTipoUsuario().name()));

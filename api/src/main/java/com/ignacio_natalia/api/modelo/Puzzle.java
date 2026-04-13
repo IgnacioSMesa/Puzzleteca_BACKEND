@@ -35,6 +35,10 @@ public class Puzzle {
     private Integer id;
 
     @Size(max = 150)
+    @Column(name = "titulo", length = 150)
+    private String titulo;
+
+    @Size(max = 150)
     @Column(name = "autor", length = 150)
     private String autor;
 
@@ -59,6 +63,10 @@ public class Puzzle {
 
     @Column(name = "imagen_url", columnDefinition = "TEXT")
     private String imagen;
+
+    // Campo temporal, no persiste, es para decodear la imagen en base 64
+    @Transient
+    private String imagenBase64;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 50)

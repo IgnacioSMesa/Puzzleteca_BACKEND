@@ -25,9 +25,28 @@ public class PuzzleController {
 
     // POST /api/puzzles
     @PostMapping("/registrarPuzzle")
-    public ResponseEntity<Void> crearPuzzle(@RequestBody Puzzle puzzle) throws ArgumentException, DataBaseAccessException, OperationException {
-        dao.insertarPuzzle(puzzle);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> crearPuzzle(@RequestBody Puzzle puzzle) {
+        try {
+            dao.insertarPuzzle(puzzle);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body("Puzzle creado exitosamente");
+
+        } catch (ArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage(), 400));
+
+        } catch (DataBaseAccessException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error de acceso a base de datos", 500));
+
+        } catch (OperationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al crear el puzzle", 500));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error inesperado al crear el puzzle", 500));
+        }
     }
 
     // GET /api/puzzles
