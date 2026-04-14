@@ -10,5 +10,5 @@ import lombok.Setter;
 public class ConfirmarCambioPasswordDTO {
     private String email;
     private String codigo;
-    private String nuevaPassword;
+    private String nuevaContrasena;
 }

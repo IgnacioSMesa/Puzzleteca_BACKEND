@@ -25,13 +25,14 @@ public class PuzzleController {
 
     // POST /api/puzzles
     @PostMapping("/registrarPuzzle")
-    public ResponseEntity<?> crearPuzzle(@RequestBody Puzzle puzzle) {
+    public ResponseEntity<?> crearPuzzle(@RequestBody PuzzleDTO dto) {
+
         try {
-            dao.insertarPuzzle(puzzle);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Puzzle creado exitosamente");
+            dao.insertarPuzzle(dto.toEntity());
+            return ResponseEntity.status(HttpStatus.CREATED).body("Puzzle creado exitosamente");
 
         } catch (ArgumentException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse(e.getMessage(), 400));
 

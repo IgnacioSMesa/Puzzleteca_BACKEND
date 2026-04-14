@@ -23,7 +23,7 @@ public class UsuarioDetailsService implements UserDetailsService {
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(usuario.getNombre())
-                .password(usuario.getPasswd())
+                .password(usuario.getContrasenna())
                 .authorities("USER")
                 .build();
     }

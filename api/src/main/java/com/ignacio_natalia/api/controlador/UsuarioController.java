@@ -58,6 +58,7 @@ public class UsuarioController {
                     .body(new ErrorResponse("Ya existe un usuario con ese email", 409));
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error al registrar el usuario", 500));
         }
@@ -75,7 +76,9 @@ public class UsuarioController {
 
             Usuario user = usuario.get();
 
-            if (!passwordEncoder.matches(request.getPassword(), user.getPasswd())) {
+            System.out.println(user.getContrasenna());
+
+            if (!passwordEncoder.matches(request.getContrasena(), user.getContrasenna())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                         .body(new ErrorResponse("Contraseña incorrecta", 401));
             }
@@ -83,9 +86,10 @@ public class UsuarioController {
             String token = JwtUtil.generarToken(user.getEmail(), user.getId() ,user.getTipoUsuario());
             logger.info("Token generado: {}", token);
 
-            return ResponseEntity.ok(new LoginResponse(token, user.getTipoUsuario().name()));
+            return ResponseEntity.ok(new LoginResponse(token, user.getId() ,user.getTipoUsuario().name()));
 
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error en el login", 500));
         }
@@ -226,12 +230,12 @@ public class UsuarioController {
 
         if (dto.getEmail() == null || dto.getEmail().isBlank()
                 || dto.getCodigo() == null || dto.getCodigo().isBlank()
-                || dto.getNuevaPassword() == null || dto.getNuevaPassword().isBlank()) {
+                || dto.getNuevaContrasena() == null || dto.getNuevaContrasena().isBlank()) {
             return ResponseEntity.badRequest()
                     .body(new ErrorResponse("Todos los campos son obligatorios", 400));
         }
 
-        if (dto.getNuevaPassword().length() < 6) {
+        if (dto.getNuevaContrasena().length() < 6) {
             return ResponseEntity.badRequest()
                     .body(new ErrorResponse("La contraseña debe tener al menos 6 caracteres", 400));
         }
@@ -248,7 +252,7 @@ public class UsuarioController {
         }
 
         Usuario usuario = usuarioOpt.get();
-        usuario.setPasswd(passwordEncoder.encode(dto.getNuevaPassword()));
+        usuario.setContrasenna(passwordEncoder.encode(dto.getNuevaContrasena()));
 
         try {
             usuarioRepository.save(usuario);

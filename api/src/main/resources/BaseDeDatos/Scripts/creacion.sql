@@ -10,7 +10,7 @@ CREATE TABLE usuario (
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
-    passwd VARCHAR(255) NOT NULL,
+    contrasenna VARCHAR(255) NOT NULL,
     tipousuario VARCHAR(50) DEFAULT 'Usuario'
 );
 
@@ -89,7 +89,7 @@ CREATE TABLE mensaje (
          REFERENCES usuario(id_usuario)
          ON DELETE CASCADE
 );
-INSERT INTO puzzles.usuario (nombre, apellido, email, passwd, tipousuario) VALUES
+INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario) VALUES
                                                                                ('Ignacio',  'Mesa',     'ignaciosanzmesa@gmail.com',  '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Admin'),
                                                                                ('Natalia',  'García',   'natalia@gmail.com',  '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Usuario'),
                                                                                ('Carlos',   'López',    'carlos@gmail.com',   '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Usuario'),

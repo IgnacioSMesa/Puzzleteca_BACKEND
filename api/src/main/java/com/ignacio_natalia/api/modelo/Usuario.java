@@ -44,8 +44,8 @@ public class Usuario {
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "passwd", nullable = false)
-    private String passwd;
+    @Column(name = "contrasenna", nullable = false)
+    private String contrasenna;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipousuario", length = 50)

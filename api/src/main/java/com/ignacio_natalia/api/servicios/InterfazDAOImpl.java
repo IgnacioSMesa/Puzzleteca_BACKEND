@@ -53,13 +53,13 @@ public class InterfazDAOImpl implements InterfazDAO {
             }
 
             // Hasheamos la contraseña antes de guardar
-            String hashedPassword = passwordEncoder.encode(user.getPasswd());
-            user.setPasswd(hashedPassword);
+            String hashedPassword = passwordEncoder.encode(user.getContrasenna());
+            user.setContrasenna(hashedPassword);
 
             // Insertamos el usuario
             Usuario usuarioGuardado = usuarioRepo.save(user);
 
-            if (usuarioGuardado.getEmail() == null || usuarioGuardado.getPasswd() == null) {
+            if (usuarioGuardado.getEmail() == null || usuarioGuardado.getContrasenna() == null) {
                 throw new OperationException(ErrorCode.OPERATION_ERROR);
             }
 
@@ -97,6 +97,7 @@ public class InterfazDAOImpl implements InterfazDAO {
 
             Usuario usuario = usuarioRepo.findById(
                     puzzle.getIdUsuario().getId()
+
             ).orElseThrow(() ->
                     new ArgumentException(ErrorCode.INVALID_ARGUMENT)
             );
