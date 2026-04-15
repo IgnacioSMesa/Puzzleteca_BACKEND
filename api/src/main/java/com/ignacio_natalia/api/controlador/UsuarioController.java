@@ -89,7 +89,6 @@ public class UsuarioController {
             return ResponseEntity.ok(new LoginResponse(token, user.getId() ,user.getTipoUsuario().name()));
 
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error en el login", 500));
         }
