@@ -367,7 +367,7 @@ public class InterfazDAOImpl implements InterfazDAO {
     @Override
     public void cambiarEstadoPuzzle(Integer id_usuario, Integer id_puzzle ,Puzzle.Estados tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess {
         if (id_usuario == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
-        if (id_puzzle < 0)throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (id_puzzle == null)throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
         if (tipo == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
         try {
