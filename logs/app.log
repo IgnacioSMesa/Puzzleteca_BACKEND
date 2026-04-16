@@ -50,3 +50,214 @@
 2026-04-16T08:51:06.418+02:00  INFO 11556 --- [Puzzleteca] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2026-04-16T08:51:06.447+02:00  INFO 11556 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2026-04-16T08:51:06.455+02:00  INFO 11556 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T10:52:39.789+02:00  INFO 2632 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Starting ApiApplication using Java 25.0.2 with PID 2632 (C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND\api\target\classes started by ignac in C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND)
+2026-04-16T10:52:39.793+02:00  INFO 2632 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T10:52:41.567+02:00  INFO 2632 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T10:52:41.732+02:00  INFO 2632 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 147 ms. Found 5 JPA repository interfaces.
+2026-04-16T10:52:42.623+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-04-16T10:52:42.649+02:00  INFO 2632 --- [Puzzleteca] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T10:52:42.650+02:00  INFO 2632 --- [Puzzleteca] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-16T10:52:42.782+02:00  INFO 2632 --- [Puzzleteca] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-16T10:52:42.784+02:00  INFO 2632 --- [Puzzleteca] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2880 ms
+2026-04-16T10:52:43.083+02:00  INFO 2632 --- [Puzzleteca] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-16T10:52:43.183+02:00  INFO 2632 --- [Puzzleteca] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-16T10:52:43.240+02:00  INFO 2632 --- [Puzzleteca] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-16T10:52:43.824+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T10:52:43.871+02:00  INFO 2632 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T10:52:44.112+02:00  INFO 2632 --- [Puzzleteca] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7c0de229
+2026-04-16T10:52:44.114+02:00  INFO 2632 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T10:52:44.177+02:00  WARN 2632 --- [Puzzleteca] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T10:52:44.207+02:00  INFO 2632 --- [Puzzleteca] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.13
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T10:52:45.777+02:00  INFO 2632 --- [Puzzleteca] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T10:52:45.992+02:00  INFO 2632 --- [Puzzleteca] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T10:52:46.531+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-16T10:52:47.532+02:00  WARN 2632 --- [Puzzleteca] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T10:52:47.819+02:00  INFO 2632 --- [Puzzleteca] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-16T10:52:47.820+02:00  WARN 2632 --- [Puzzleteca] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-16T10:52:48.008+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-16T10:52:48.460+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-04-16T10:52:48.461+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7e4fc391]]
+2026-04-16T10:52:48.463+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-04-16T10:52:48.485+02:00  INFO 2632 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T10:52:48.496+02:00  INFO 2632 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Started ApiApplication in 9.8 seconds (process running for 11.166)
+2026-04-16T10:53:48.518+02:00  INFO 2632 --- [Puzzleteca] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-04-16T10:55:40.367+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-16T10:55:40.368+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-16T10:55:40.407+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 39 ms
+2026-04-16T10:55:41.361+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-1] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMyOTc0MSwiZXhwIjoxNzc2NDE2MTQxfQ.LRaEny-ZPafNm017yWflMJ8q2AwfGIfFAwcUbN_3GjE
+2026-04-16T10:56:42.619+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-3] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMyOTgwMiwiZXhwIjoxNzc2NDE2MjAyfQ.J9AiVRZLtACHykvBq0ud3GgAASeo9kahmqflZDc7YnU
+2026-04-16T10:57:42.417+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-8] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXRhbGlhQGdtYWlsLmNvbSIsImlkX3VzdWFyaW8iOjIsInRpcG9Vc3VhcmlvIjoiVXN1YXJpbyIsImlhdCI6MTc3NjMyOTg2MiwiZXhwIjoxNzc2NDE2MjYyfQ.KHQL8qM55owNpp2xDeLgN6XJEOYoqoMRoDvSzyOIFJ4
+2026-04-16T10:58:29.073+02:00  INFO 2632 --- [Puzzleteca] [http-nio-8080-exec-4] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXRhbGlhQGdtYWlsLmNvbSIsImlkX3VzdWFyaW8iOjIsInRpcG9Vc3VhcmlvIjoiVXN1YXJpbyIsImlhdCI6MTc3NjMyOTkwOSwiZXhwIjoxNzc2NDE2MzA5fQ.HuBY8nnubRfSmUy8H3JVdE5w9OwC-Z2WSZsmBmG2Nuc
+2026-04-16T10:58:49.321+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T10:58:49.335+02:00  INFO 2632 --- [Puzzleteca] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-04-16T10:58:49.338+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-04-16T10:58:49.338+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7e4fc391]]
+2026-04-16T10:58:49.338+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-04-16T10:58:49.343+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T10:58:49.347+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T10:58:49.359+02:00  INFO 2632 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T11:13:28.993+02:00  INFO 15580 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Starting ApiApplication using Java 25.0.2 with PID 15580 (C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND\api\target\classes started by ignac in C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND)
+2026-04-16T11:13:28.997+02:00  INFO 15580 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T11:13:30.863+02:00  INFO 15580 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T11:13:31.004+02:00  INFO 15580 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 124 ms. Found 5 JPA repository interfaces.
+2026-04-16T11:13:32.020+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-04-16T11:13:32.045+02:00  INFO 15580 --- [Puzzleteca] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T11:13:32.046+02:00  INFO 15580 --- [Puzzleteca] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-16T11:13:32.156+02:00  INFO 15580 --- [Puzzleteca] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-16T11:13:32.157+02:00  INFO 15580 --- [Puzzleteca] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2988 ms
+2026-04-16T11:13:32.470+02:00  INFO 15580 --- [Puzzleteca] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-16T11:13:32.567+02:00  INFO 15580 --- [Puzzleteca] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-16T11:13:32.618+02:00  INFO 15580 --- [Puzzleteca] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-16T11:13:33.188+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T11:13:33.240+02:00  INFO 15580 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T11:13:33.477+02:00  INFO 15580 --- [Puzzleteca] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@543b0737
+2026-04-16T11:13:33.480+02:00  INFO 15580 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T11:13:33.536+02:00  WARN 15580 --- [Puzzleteca] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T11:13:33.572+02:00  INFO 15580 --- [Puzzleteca] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.13
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T11:13:35.455+02:00  INFO 15580 --- [Puzzleteca] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T11:13:35.631+02:00  INFO 15580 --- [Puzzleteca] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T11:13:37.005+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-16T11:13:49.767+02:00  WARN 15580 --- [Puzzleteca] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T11:13:50.190+02:00  INFO 15580 --- [Puzzleteca] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-16T11:13:50.191+02:00  WARN 15580 --- [Puzzleteca] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-16T11:13:50.478+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-16T11:13:51.120+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-04-16T11:13:51.122+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@b8f6500]]
+2026-04-16T11:13:51.125+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-04-16T11:13:51.160+02:00  INFO 15580 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T11:13:51.186+02:00  INFO 15580 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Started ApiApplication in 23.287 seconds (process running for 25.146)
+2026-04-16T11:14:23.076+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-16T11:14:23.078+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-16T11:14:23.087+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-04-16T11:14:23.800+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-3] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMDg2MywiZXhwIjoxNzc2NDE3MjYzfQ.pNThXH91cBaCMlemQQUMiW_MKqs5ONUfOabOHcYt7LY
+2026-04-16T11:14:51.108+02:00  INFO 15580 --- [Puzzleteca] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-04-16T11:18:21.761+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-9] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMTEwMSwiZXhwIjoxNzc2NDE3NTAxfQ.WyB4Rb6mnf2C_Q1wpQ2RARktG6-o7MyUc3yaNT1-qNE
+2026-04-16T11:22:35.000+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-5] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMTM1NCwiZXhwIjoxNzc2NDE3NzU0fQ.5wNJrbFgqQ6-caybwzkSKpuAV3xgsQnYIKCiWlg1ANo
+2026-04-16T11:24:20.242+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-5] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXRhbGlhQGdtYWlsLmNvbSIsImlkX3VzdWFyaW8iOjIsInRpcG9Vc3VhcmlvIjoiVXN1YXJpbyIsImlhdCI6MTc3NjMzMTQ2MCwiZXhwIjoxNzc2NDE3ODYwfQ.wgLgXnoxNJO8NDvp55vpuPnl7cJBiDt_ZtvFs6i2zLw
+2026-04-16T11:32:15.804+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-4] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMTkzNSwiZXhwIjoxNzc2NDE4MzM1fQ.yP75ZJfNZEQN53clvm3qRvqFts2xVT85TcB4QONBQQQ
+2026-04-16T11:33:43.325+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-2] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXRhbGlhQGdtYWlsLmNvbSIsImlkX3VzdWFyaW8iOjIsInRpcG9Vc3VhcmlvIjoiVXN1YXJpbyIsImlhdCI6MTc3NjMzMjAyMywiZXhwIjoxNzc2NDE4NDIzfQ.RFO6TMYctK26sph-j4WBvaQkN2IuY77tUiguLNml0CA
+2026-04-16T11:44:51.121+02:00  INFO 15580 --- [Puzzleteca] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 2, active threads = 1, queued tasks = 0, completed tasks = 1]
+2026-04-16T11:51:34.837+02:00  INFO 15580 --- [Puzzleteca] [http-nio-8080-exec-1] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMzA5NCwiZXhwIjoxNzc2NDE5NDk0fQ.cykg0AeDqJgDpavn_7QSRJZatMQcx9ncFO2xkb2mtlk
+2026-04-16T11:55:10.876+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T11:55:10.895+02:00  INFO 15580 --- [Puzzleteca] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-04-16T11:55:10.899+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-04-16T11:55:10.901+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@b8f6500]]
+2026-04-16T11:55:10.902+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-04-16T11:55:10.909+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T11:55:10.916+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T11:55:10.922+02:00  INFO 15580 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T11:55:26.590+02:00  INFO 13952 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Starting ApiApplication using Java 25.0.2 with PID 13952 (C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND\api\target\classes started by ignac in C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND)
+2026-04-16T11:55:26.594+02:00  INFO 13952 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T11:55:28.646+02:00  INFO 13952 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T11:55:28.865+02:00  INFO 13952 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 202 ms. Found 5 JPA repository interfaces.
+2026-04-16T11:55:29.931+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-04-16T11:55:29.947+02:00  INFO 13952 --- [Puzzleteca] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T11:55:29.948+02:00  INFO 13952 --- [Puzzleteca] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-16T11:55:30.035+02:00  INFO 13952 --- [Puzzleteca] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-16T11:55:30.035+02:00  INFO 13952 --- [Puzzleteca] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3326 ms
+2026-04-16T11:55:30.340+02:00  INFO 13952 --- [Puzzleteca] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-16T11:55:30.402+02:00  INFO 13952 --- [Puzzleteca] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-16T11:55:30.443+02:00  INFO 13952 --- [Puzzleteca] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-16T11:55:30.969+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T11:55:31.008+02:00  INFO 13952 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T11:55:31.175+02:00  INFO 13952 --- [Puzzleteca] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2109a691
+2026-04-16T11:55:31.179+02:00  INFO 13952 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T11:55:31.251+02:00  WARN 13952 --- [Puzzleteca] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T11:55:31.389+02:00  INFO 13952 --- [Puzzleteca] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.13
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T11:55:33.170+02:00  INFO 13952 --- [Puzzleteca] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T11:55:33.459+02:00  INFO 13952 --- [Puzzleteca] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T11:55:34.041+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-16T11:55:35.186+02:00  WARN 13952 --- [Puzzleteca] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T11:55:35.679+02:00  INFO 13952 --- [Puzzleteca] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-16T11:55:35.680+02:00  WARN 13952 --- [Puzzleteca] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-16T11:55:36.225+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-16T11:55:37.056+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-04-16T11:55:37.062+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7b3d759f]]
+2026-04-16T11:55:37.063+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-04-16T11:55:37.097+02:00  INFO 13952 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T11:55:37.160+02:00  INFO 13952 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Started ApiApplication in 11.73 seconds (process running for 13.146)
+2026-04-16T11:56:17.499+02:00  INFO 13952 --- [Puzzleteca] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-16T11:56:17.499+02:00  INFO 13952 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-16T11:56:17.502+02:00  INFO 13952 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-04-16T11:56:18.260+02:00  INFO 13952 --- [Puzzleteca] [http-nio-8080-exec-1] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMzM3OCwiZXhwIjoxNzc2NDE5Nzc4fQ._4gz4FBeBJsKqTyW4CtFEnYCQxH4SKbAve6ZieR8zH4
+2026-04-16T11:56:37.123+02:00  INFO 13952 --- [Puzzleteca] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 6, active threads = 0, queued tasks = 0, completed tasks = 6], outboundChannel[pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 1], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-04-16T12:00:20.600+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T12:00:20.609+02:00  INFO 13952 --- [Puzzleteca] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-04-16T12:00:20.616+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-04-16T12:00:20.616+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7b3d759f]]
+2026-04-16T12:00:20.617+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-04-16T12:00:20.625+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T12:00:20.631+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T12:00:20.648+02:00  INFO 13952 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-04-16T12:00:32.863+02:00  INFO 7444 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Starting ApiApplication using Java 25.0.2 with PID 7444 (C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND\api\target\classes started by ignac in C:\Users\ignac\IdeaProjects\Puzzleteca_BACKEND)
+2026-04-16T12:00:32.867+02:00  INFO 7444 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-04-16T12:00:35.131+02:00  INFO 7444 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-04-16T12:00:35.290+02:00  INFO 7444 --- [Puzzleteca] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 140 ms. Found 5 JPA repository interfaces.
+2026-04-16T12:00:37.366+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-04-16T12:00:37.395+02:00  INFO 7444 --- [Puzzleteca] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-04-16T12:00:37.395+02:00  INFO 7444 --- [Puzzleteca] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-04-16T12:00:37.871+02:00  INFO 7444 --- [Puzzleteca] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-04-16T12:00:37.872+02:00  INFO 7444 --- [Puzzleteca] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4929 ms
+2026-04-16T12:00:41.115+02:00  INFO 7444 --- [Puzzleteca] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-04-16T12:00:43.141+02:00  INFO 7444 --- [Puzzleteca] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.41.Final
+2026-04-16T12:00:43.990+02:00  INFO 7444 --- [Puzzleteca] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-04-16T12:00:47.639+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-04-16T12:00:47.746+02:00  INFO 7444 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-04-16T12:00:48.131+02:00  INFO 7444 --- [Puzzleteca] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@74cd798f
+2026-04-16T12:00:48.135+02:00  INFO 7444 --- [Puzzleteca] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-04-16T12:00:48.194+02:00  WARN 7444 --- [Puzzleteca] [main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-04-16T12:00:48.239+02:00  INFO 7444 --- [Puzzleteca] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.13
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-04-16T12:00:54.329+02:00  INFO 7444 --- [Puzzleteca] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-04-16T12:00:54.970+02:00  INFO 7444 --- [Puzzleteca] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T12:00:56.875+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-04-16T12:01:00.285+02:00  WARN 7444 --- [Puzzleteca] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-04-16T12:01:01.375+02:00  INFO 7444 --- [Puzzleteca] [main] eAuthenticationProviderManagerConfigurer : Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2026-04-16T12:01:01.378+02:00  WARN 7444 --- [Puzzleteca] [main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2026-04-16T12:01:02.466+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Bean Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-04-16T12:01:06.777+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-04-16T12:01:06.797+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@387907d]]
+2026-04-16T12:01:06.891+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-04-16T12:01:07.267+02:00  INFO 7444 --- [Puzzleteca] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-04-16T12:01:07.425+02:00  INFO 7444 --- [Puzzleteca] [main] com.ignacio_natalia.api.ApiApplication   : Started ApiApplication in 35.656 seconds (process running for 37.164)
+2026-04-16T12:01:15.100+02:00  INFO 7444 --- [Puzzleteca] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-04-16T12:01:15.111+02:00  INFO 7444 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-04-16T12:01:15.115+02:00  INFO 7444 --- [Puzzleteca] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-04-16T12:01:15.803+02:00  INFO 7444 --- [Puzzleteca] [http-nio-8080-exec-1] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpZ25hY2lvc2Fuem1lc2FAZ21haWwuY29tIiwiaWRfdXN1YXJpbyI6MSwidGlwb1VzdWFyaW8iOiJBZG1pbiIsImlhdCI6MTc3NjMzMzY3NSwiZXhwIjoxNzc2NDIwMDc1fQ.tysMWk_pJOXv_GzE3WOJflZC4rksEm-4zp5s4pAo-TU
+2026-04-16T12:02:06.516+02:00  INFO 7444 --- [Puzzleteca] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 8, active threads = 0, queued tasks = 0, completed tasks = 12], outboundChannel[pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 3], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2026-04-16T12:02:12.225+02:00  INFO 7444 --- [Puzzleteca] [http-nio-8080-exec-1] c.i.api.controlador.UsuarioController    : Token generado: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJuYXRhbGlhQGdtYWlsLmNvbSIsImlkX3VzdWFyaW8iOjIsInRpcG9Vc3VhcmlvIjoiVXN1YXJpbyIsImlhdCI6MTc3NjMzMzczMiwiZXhwIjoxNzc2NDIwMTMyfQ.EdyXadhyS3ipgdkB4UkTVRu2UxnAP9vzOa1vUcDiK5Q
+2026-04-16T12:03:30.972+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2026-04-16T12:03:31.045+02:00  INFO 7444 --- [Puzzleteca] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2026-04-16T12:03:31.049+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-04-16T12:03:31.049+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@387907d]]
+2026-04-16T12:03:31.051+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-04-16T12:03:31.059+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-04-16T12:03:31.065+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-04-16T12:03:31.090+02:00  INFO 7444 --- [Puzzleteca] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
