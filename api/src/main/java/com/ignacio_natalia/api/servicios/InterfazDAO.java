@@ -104,12 +104,12 @@ public interface InterfazDAO {
     void cambiarEstadoUsuario(String email, Usuario.TipoUsuario tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess, ObjectNotExist, OperationException;
 
     /**
-     * Obtiene el mejor tiempo registrado en la resolución de puzzles.
+     * Cambia el estado del puzzle entre Publico, Privado o Bloqueado
      *
-     * @return int que representa el mejor tiempo
+     * @throws ArgumentException si el id del  usuario no es válido o no está
      * @throws DataBaseAccessException si ocurre un error de acceso a datos
      * @throws DataEmptyAccess si no existen datos
      */
-    int mejorTiempo() throws DataBaseAccessException, DataEmptyAccess;
+    void cambiarEstadoPuzzle(Integer id_usuario, Integer id_puzzle , Puzzle.Estados tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess;
 
 }

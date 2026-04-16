@@ -11,6 +11,7 @@ import java.util.Optional;
 @Repository
 public interface PuzzleRepository extends JpaRepository<Puzzle, Integer> {
 
+
     @Query("SELECT MIN(p.tiempo) FROM Puzzle p")
     Integer obtenerMejorTiempo();
 

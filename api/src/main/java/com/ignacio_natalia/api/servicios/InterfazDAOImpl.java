@@ -7,6 +7,7 @@ import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -338,6 +339,7 @@ public class InterfazDAOImpl implements InterfazDAO {
 
         try {
             usuarioOpt = usuarioRepo.findUsuarioByEmail(email);
+
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
@@ -363,20 +365,25 @@ public class InterfazDAOImpl implements InterfazDAO {
     }
 
     @Override
-    public int mejorTiempo() throws DataBaseAccessException, DataEmptyAccess {
+    public void cambiarEstadoPuzzle(Integer id_usuario, Integer id_puzzle ,Puzzle.Estados tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess {
+        if (id_usuario == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (id_puzzle < 0)throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+        if (tipo == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
         try {
 
-            Integer mejor = puzzleRepo.obtenerMejorTiempo();
+            Puzzle puzzle = puzzleRepo
+                    .findByIdAndUsuarioId(id_puzzle, id_usuario)
+                    .orElseThrow(() -> new DataEmptyAccess(ErrorCode.OBJECT_NOT_FOUND));
 
-            if (mejor == null) {
-                throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
-            }
+            puzzle.setEstado(tipo);
+            puzzleRepo.save(puzzle);
 
-            return mejor;
+        } catch (org.springframework.dao.DataAccessException e) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR);
 
-        } catch (org.springframework.dao.DataAccessException ex) {
-            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
+
     }
+
 }

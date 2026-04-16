@@ -4,6 +4,7 @@ import com.ignacio_natalia.api.dto.PuzzlesDTO.ActualizarPuzzleDTO;
 import com.ignacio_natalia.api.dto.PuzzlesDTO.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
+import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 
@@ -73,8 +74,32 @@ public class PuzzleController {
         }
     }
 
+    // Actualizar estado puzzle
+        @PutMapping("/actualizarEstado")
+    public ResponseEntity<?> actualizarEstado(@RequestParam Integer id_usuario, @RequestParam Integer id_puzzle, @RequestParam Puzzle.Estados tipo) {
+
+        try {
+
+            dao.cambiarEstadoPuzzle(id_usuario, id_puzzle, tipo);
+            return ResponseEntity.ok().build();
+
+        } catch (ArgumentException ex) {
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse("Los datos enviados no son válidos", 400));
+
+        } catch (DataEmptyAccess ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("Error al acceder al puzzle", 409));
+
+        }catch (DataBaseAccessException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 500));
+
+        }
+    }
+
     // Actualizar puzzle
-    @PostMapping("/actualizarPuzzle")
+    @PutMapping("/actualizarPuzzle")
     public ResponseEntity<?> actualizarPuzzle(@RequestBody ActualizarPuzzleDTO dto) {
 
         try {
