@@ -8,26 +8,14 @@ import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @Entity
 @Table(name = "puzzle", schema = "puzzles")
 public class Puzzle {
 
-    public enum Dificultades {
-        Facil,
-        Media,
-        Dificil,
-        Extremo
-    }
-
-    public enum Estados {
-        Publico,
-        Privado,
-        Bloqueado
-    }
+    public enum Dificultades { Facil, Media, Dificil, Extremo }
+    public enum Estados { Publico, Privado, Bloqueado }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,25 +46,20 @@ public class Puzzle {
     @Column(name = "color")
     private boolean color;
 
-    @Column(name = "valoracion", precision = 3, scale = 2)
+    @Column(name = "valoracion")
     private int valoracion;
 
+    // Ahora guarda el base64 directamente en BD, no una ruta
     @Column(name = "imagen_url", columnDefinition = "TEXT")
     private String imagen;
-
-    // Campo temporal, no persiste, es para decodear la imagen en base 64
-    @Transient
-    private String imagenBase64;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "estado", length = 50)
     private Estados estado;
-
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "id_usuario", nullable = false)
     private Usuario idUsuario;
-
 }

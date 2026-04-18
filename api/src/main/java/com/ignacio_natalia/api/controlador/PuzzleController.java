@@ -33,7 +33,6 @@ public class PuzzleController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Puzzle creado exitosamente");
 
         } catch (ArgumentException e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse(e.getMessage(), 400));
 

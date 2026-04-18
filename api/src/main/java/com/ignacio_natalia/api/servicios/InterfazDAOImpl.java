@@ -73,49 +73,21 @@ public class InterfazDAOImpl implements InterfazDAO {
     public void insertarPuzzle(Puzzle puzzle)
             throws ArgumentException, DataBaseAccessException, OperationException {
 
-        if (puzzle == null) {
-            throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
-        }
+        if (puzzle == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
 
         try {
 
-            if (puzzle.getImagenBase64() != null) {
-
-                byte[] imagenBytes =
-                        Base64.getDecoder().decode(puzzle.getImagenBase64());
-
-                Files.createDirectories(Paths.get(uploadDir));
-
-                String nombreArchivo =
-                        "puzzle_" + System.currentTimeMillis() + ".png";
-
-                Path ruta = Paths.get(uploadDir + nombreArchivo);
-
-                Files.write(ruta, imagenBytes);
-
-                puzzle.setImagen("/imagenes/" + nombreArchivo);
-            }
-
-            Usuario usuario = usuarioRepo.findById(
-                    puzzle.getIdUsuario().getId()
-
-            ).orElseThrow(() ->
-                    new ArgumentException(ErrorCode.INVALID_ARGUMENT)
-            );
+            Usuario usuario = usuarioRepo.findById(puzzle.getIdUsuario().getId())
+                    .orElseThrow(() -> new ArgumentException(ErrorCode.INVALID_ARGUMENT));
 
             puzzle.setIdUsuario(usuario);
 
             Puzzle guardado = puzzleRepo.save(puzzle);
 
-            if (guardado.getId() == null) {
-                throw new OperationException(ErrorCode.OPERATION_ERROR);
-            }
+            if (guardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
 
         } catch (IllegalArgumentException e) {
             throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
-
-        } catch (IOException e) {
-            throw new OperationException(ErrorCode.OPERATION_ERROR);
 
         } catch (org.springframework.dao.DataAccessException ex) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);

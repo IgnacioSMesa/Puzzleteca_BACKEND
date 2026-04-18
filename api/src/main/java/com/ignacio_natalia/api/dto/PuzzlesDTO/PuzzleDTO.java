@@ -27,7 +27,6 @@ public class PuzzleDTO {
 
     public static PuzzleDTO fromEntity(Puzzle puzzle) {
         if (puzzle == null) return null;
-        Integer usuarioId = (puzzle.getIdUsuario() != null) ? puzzle.getIdUsuario().getId() : null;
         PuzzleDTO dto = new PuzzleDTO();
         dto.setId(puzzle.getId());
         dto.setTitulo(puzzle.getTitulo());
@@ -39,8 +38,8 @@ public class PuzzleDTO {
         dto.setColor(puzzle.isColor());
         dto.setValoracion(puzzle.getValoracion());
         dto.setEstado(puzzle.getEstado());
-        dto.setIdUsuario(usuarioId);
-
+        dto.setIdUsuario(puzzle.getIdUsuario() != null ? puzzle.getIdUsuario().getId() : null);
+        dto.setImagenBase64(puzzle.getImagen());
         return dto;
     }
 
@@ -55,14 +54,13 @@ public class PuzzleDTO {
         puzzle.setColor(this.color != null && this.color);
         puzzle.setValoracion(this.valoracion != null ? this.valoracion : 0);
         puzzle.setEstado(this.estado);
-        puzzle.setImagenBase64(this.imagenBase64);
+        puzzle.setImagen(this.imagenBase64);
 
         if (this.idUsuario != null) {
             com.ignacio_natalia.api.modelo.Usuario u = new com.ignacio_natalia.api.modelo.Usuario();
             u.setId(this.idUsuario);
             puzzle.setIdUsuario(u);
         }
-
         return puzzle;
     }
 }
