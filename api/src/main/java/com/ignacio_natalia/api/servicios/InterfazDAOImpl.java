@@ -38,6 +38,7 @@ public class InterfazDAOImpl implements InterfazDAO {
         this.usuarioRepo = usuarioRepo;
         this.puzzleRepo = puzzleRepo;
     }
+
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override

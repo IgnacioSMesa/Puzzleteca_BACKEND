@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.Optional;
 
 public class JwtUtil {
 
