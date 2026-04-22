@@ -45,6 +45,7 @@ public class PuzzleDTO {
 
     public Puzzle toEntity() {
         Puzzle puzzle = new Puzzle();
+        puzzle.setId(this.id);
         puzzle.setTitulo(this.titulo);
         puzzle.setAutor(this.autor);
         puzzle.setTiempo(this.tiempo);
