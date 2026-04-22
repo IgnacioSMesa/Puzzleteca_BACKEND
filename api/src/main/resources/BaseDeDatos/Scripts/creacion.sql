@@ -89,3 +89,21 @@ CREATE TABLE mensaje (
          REFERENCES usuario(id_usuario)
          ON DELETE CASCADE
 );
+CREATE TABLE comentario (
+    id_comentario INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    contenido TEXT NOT NULL,
+    creado_en TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+
+    id_usuario INT NOT NULL,
+    id_puzzle INT NOT NULL,
+
+    CONSTRAINT fk_comentario_usuario
+        FOREIGN KEY (id_usuario)
+            REFERENCES usuario(id_usuario)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk_comentario_puzzle
+        FOREIGN KEY (id_puzzle)
+            REFERENCES puzzle(id_puzzle)
+            ON DELETE CASCADE
+);
