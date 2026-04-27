@@ -20,23 +20,53 @@ CREATE TABLE usuario
 -- ==========================
 CREATE TABLE puzzle
 (
-    id_puzzle   INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    titulo      VARCHAR(150),
-    autor       VARCHAR(150),
-    tiempo      INT,
-    piezas      INT,
-    dificultad  VARCHAR(50),
-    descripcion TEXT,
-    color       BOOLEAN,
-    valoracion  INT  DEFAULT 0 CHECK (valoracion >= 0),
-    estado      text,
-    imagen_url  TEXT DEFAULT NULL,
-    id_usuario  INT NOT NULL,
+    id_puzzle          INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    titulo             VARCHAR(150),
+    autor              VARCHAR(150),
+    tiempo             INT,
+    piezas             INT,
+    dificultad         VARCHAR(50),
+    descripcion        TEXT,
+    color              BOOLEAN,
+    valoracion_media   DECIMAL(3, 2) DEFAULT 0,
+    total_valoraciones INT           DEFAULT 0,
+    estado             text,
+    imagen_url         TEXT          DEFAULT NULL,
+    id_usuario         INT NOT NULL,
 
     CONSTRAINT fk_puzzle_usuario
         FOREIGN KEY (id_usuario)
             REFERENCES usuario (id_usuario)
             ON DELETE CASCADE
+);
+
+-- ==========================
+-- TABLA VALORACION_PUZZLE
+-- ==========================
+CREATE TABLE valoracion_puzzle
+(
+    id_valoracion INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+
+    id_usuario    INT NOT NULL,
+    id_puzzle     INT NOT NULL,
+
+    valoracion    INT NOT NULL CHECK (valoracion BETWEEN 1 AND 5),
+
+    fecha         TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_valoracion_usuario
+        FOREIGN KEY (id_usuario)
+            REFERENCES usuario (id_usuario)
+            ON DELETE CASCADE,
+
+    CONSTRAINT fk_valoracion_puzzle
+        FOREIGN KEY (id_puzzle)
+            REFERENCES puzzle (id_puzzle)
+            ON DELETE CASCADE,
+
+    -- 🔒 Impide que un usuario vote más de una vez
+    CONSTRAINT unique_valoracion_usuario_puzzle
+        UNIQUE (id_usuario, id_puzzle)
 );
 
 -- ==========================
