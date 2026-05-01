@@ -3,6 +3,7 @@ package com.ignacio_natalia.api.servicios;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -111,5 +112,46 @@ public interface InterfazDAO {
      * @throws DataEmptyAccess si no existen datos
      */
     void cambiarEstadoPuzzle(Integer id_usuario, Integer id_puzzle , Puzzle.Estados tipo) throws ArgumentException, DataBaseAccessException, DataEmptyAccess;
+
+    // =========================================================================
+    // POST (foro)
+    // =========================================================================
+
+    /**
+     * Crea un nuevo post. Si se incluye imagen, la procesa (redimensiona +
+     * comprime) y guarda en disco; la ruta relativa se almacena en BD.
+     *
+     * @param idUsuario ID del usuario autor
+     * @param contenido texto del post (puede ser null si hay imagen)
+     * @param imagen    archivo de imagen (puede ser null si hay contenido)
+     * @return el Post persistido
+     * @throws ArgumentException       si faltan datos obligatorios
+     * @throws DataBaseAccessException si falla el acceso a BD
+     * @throws OperationException      si el guardado no produce resultado
+     * @throws IOException             si falla el procesamiento de la imagen
+     */
+    Post crearPost(Integer idUsuario, String contenido, org.springframework.web.multipart.MultipartFile imagen) throws ArgumentException, DataBaseAccessException, OperationException, java.io.IOException;
+
+    /**
+     * Devuelve el feed paginado de posts (más recientes primero).
+     *
+     * @param pagina  número de página (0-indexed)
+     * @param tamanno cantidad de posts por página
+     * @return página de Posts
+     * @throws DataBaseAccessException si falla el acceso a BD
+     * @throws DataEmptyAccess         si no hay posts
+     */
+    org.springframework.data.domain.Page<Post> listarPosts(int pagina, int tamanno) throws DataBaseAccessException, DataEmptyAccess;
+
+    /**
+     * Elimina un post y su imagen asociada en disco.
+     *
+     * @param idPost    ID del post a eliminar
+     * @param idUsuario ID del usuario que solicita la eliminación
+     * @throws ArgumentException       si los IDs son inválidos
+     * @throws ObjectNotExist          si el post no existe o no pertenece al usuario
+     * @throws DataBaseAccessException si falla el acceso a BD
+     */
+    void eliminarPost(Integer idPost, Integer idUsuario) throws ArgumentException, ObjectNotExist, DataBaseAccessException;
 
 }

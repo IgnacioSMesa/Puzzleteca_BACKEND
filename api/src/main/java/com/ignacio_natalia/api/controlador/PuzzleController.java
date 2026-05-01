@@ -4,14 +4,18 @@ import com.ignacio_natalia.api.dto.PuzzlesDTO.ActualizarPuzzleDTO;
 import com.ignacio_natalia.api.dto.PuzzlesDTO.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
-import com.ignacio_natalia.api.modelo.Usuario;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
+import com.ignacio_natalia.api.servicios.ImagenService;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -19,18 +23,64 @@ import java.util.List;
 public class PuzzleController {
 
     private final InterfazDAO dao;
+    private final ImagenService imagenService;
 
-    public PuzzleController(InterfazDAO dao) {
+    @Value("${app.image.base-url:http://localhost:8080/imagenes/}")
+    private String imageBaseUrl;
+
+    public PuzzleController(InterfazDAO dao, ImagenService imagenService) {
         this.dao = dao;
+        this.imagenService = imagenService;
     }
 
-    // POST /api/puzzles
-    @PostMapping("/registrarPuzzle")
-    public ResponseEntity<?> crearPuzzle(@RequestBody PuzzleDTO dto) {
+    /**
+     * POST /puzzles/registrarPuzzle
+     *
+     * Recibe multipart/form-data con los campos del puzzle más un fichero de imagen opcional.
+     * La imagen se guarda en disco; en BD solo se almacena la ruta relativa (escalable).
+     */
+    @PostMapping(value = "/registrarPuzzle", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> crearPuzzle(
+            @RequestParam String titulo,
+            @RequestParam String autor,
+            @RequestParam Integer tiempo,
+            @RequestParam Integer piezas,
+            @RequestParam Puzzle.Dificultades dificultad,
+            @RequestParam(required = false) String descripcion,
+            @RequestParam boolean color,
+            @RequestParam Puzzle.Estados estado,
+            @RequestParam Integer idUsuario,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
 
         try {
+            PuzzleDTO dto = new PuzzleDTO();
+            dto.setTitulo(titulo);
+            dto.setAutor(autor);
+            dto.setTiempo(tiempo);
+            dto.setPiezas(piezas);
+            dto.setDificultad(dificultad);
+            dto.setDescripcion(descripcion);
+            dto.setColor(color);
+            dto.setEstado(estado);
+            dto.setIdUsuario(idUsuario);
+            dto.setValoracion(0);
+
+            // Procesar imagen si se incluye
+            if (imagen != null && !imagen.isEmpty()) {
+                String rutaRelativa = imagenService.guardarImagenPuzzle(imagen);
+                dto.setImagenUrl(rutaRelativa);
+            }
+
             dao.insertarPuzzle(dto.toEntity());
             return ResponseEntity.status(HttpStatus.CREATED).body("Puzzle creado exitosamente");
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorResponse(e.getMessage(), 400));
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al procesar la imagen", 500));
 
         } catch (ArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -50,15 +100,14 @@ public class PuzzleController {
         }
     }
 
-    // GET /api/puzzles
+    // GET /puzzles/obtenerPuzzles  — todos los puzzles
     @GetMapping("/obtenerPuzzles")
     public ResponseEntity<?> listarPuzzles() {
-
         try {
             List<Puzzle> puzzles = dao.listarPuzzles();
 
             List<PuzzleDTO> puzzleDTOS = puzzles.stream()
-                    .map(PuzzleDTO::fromEntity)
+                    .map(p -> PuzzleDTO.fromEntity(p, imageBaseUrl))
                     .toList();
 
             return ResponseEntity.ok(puzzleDTOS);
@@ -73,12 +122,40 @@ public class PuzzleController {
         }
     }
 
-    // Actualizar estado puzzle
-        @PutMapping("/actualizarEstado")
-    public ResponseEntity<?> actualizarEstado(@RequestParam Integer id_usuario, @RequestParam Integer id_puzzle, @RequestParam Puzzle.Estados tipo) {
-
+    // GET /puzzles/misPuzzles?idUsuario=X
+    @GetMapping("/misPuzzles")
+    public ResponseEntity<?> misPuzzles(@RequestParam Integer idUsuario) {
         try {
+            List<Puzzle> todos = dao.listarPuzzles();
+            List<PuzzleDTO> misPuzzles = todos.stream()
+                    .filter(p -> p.getIdUsuario() != null
+                            && p.getIdUsuario().getId().equals(idUsuario))
+                    .map(p -> PuzzleDTO.fromEntity(p, imageBaseUrl))
+                    .toList();
 
+            if (misPuzzles.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ErrorResponse("No tienes puzzles registrados", 404));
+            }
+            return ResponseEntity.ok(misPuzzles);
+
+        } catch (DataBaseAccessException db) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ErrorResponse("Error al conectar con la base de datos", 409));
+
+        } catch (DataEmptyAccess e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ErrorResponse("No hay puzzles registrados", 404));
+        }
+    }
+
+    // PUT /puzzles/actualizarEstado
+    @PutMapping("/actualizarEstado")
+    public ResponseEntity<?> actualizarEstado(
+            @RequestParam Integer id_usuario,
+            @RequestParam Integer id_puzzle,
+            @RequestParam Puzzle.Estados tipo) {
+        try {
             dao.cambiarEstadoPuzzle(id_usuario, id_puzzle, tipo);
             return ResponseEntity.ok().build();
 
@@ -90,20 +167,18 @@ public class PuzzleController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new ErrorResponse("Error al acceder al puzzle", 409));
 
-        }catch (DataBaseAccessException ex) {
+        } catch (DataBaseAccessException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error al conectar con la base de datos", 500));
-
         }
     }
 
-    // Actualizar puzzle
+    // PUT /puzzles/actualizarPuzzle
     @PutMapping("/actualizarPuzzle")
     public ResponseEntity<?> actualizarPuzzle(@RequestBody ActualizarPuzzleDTO dto) {
-
         try {
-
-            dao.actualizarPuzzle(dto.getIdUsuario(), dto.getIdPuzzle(), dto.getAtributo(), dto.getCambio());
+            dao.actualizarPuzzle(dto.getIdUsuario(), dto.getIdPuzzle(),
+                    dto.getAtributo(), dto.getCambio());
             return ResponseEntity.ok().build();
 
         } catch (ArgumentException ex) {
@@ -116,7 +191,7 @@ public class PuzzleController {
 
         } catch (DataEmptyAccess ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new ErrorResponse("El puzzle ya tiene ese valor, no hay nada que actualizar", 409));
+                    .body(new ErrorResponse("El puzzle ya tiene ese valor", 409));
 
         } catch (DataBaseAccessException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -127,5 +202,4 @@ public class PuzzleController {
                     .body(new ErrorResponse("Error al actualizar el puzzle", 500));
         }
     }
-
 }

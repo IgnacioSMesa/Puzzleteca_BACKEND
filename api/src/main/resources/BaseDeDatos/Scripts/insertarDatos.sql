@@ -7,7 +7,7 @@ INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario) VALUES
                                                                             ('Sara',     'Martínez', 'sara@gmail.com',     '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Usuario'),
                                                                             ('Pablo',    'Sánchez',  'pablo@gmail.com',    '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Usuario');
 
-INSERT INTO puzzle (titulo, autor, tiempo, piezas, dificultad, descripcion, color, valoracion, estado, id_usuario, imagen_url) VALUES
+INSERT INTO puzzle (titulo, autor, tiempo, piezas, dificultad, descripcion, color, valoracion_media, estado, id_usuario, imagen_url) VALUES
                                                                                                                                    ('Atardecer en la playa', 'Ignacio Mesa', 600, 500, 'Facil', 'Puzzle de un paisaje de playa al atardecer con tonos cálidos.', true, 5, 'Publico', 1, NULL),
                                                                                                                                    ('Gato curioso', 'Natalia García', 450, 300, 'Facil', 'Imagen de un gato observando la cámara con fondo desenfocado.', true, 4, 'Publico', 2, NULL),
                                                                                                                                    ('Ciudad nocturna', 'Carlos López', 1200, 1000, 'Dificil', 'Vista aérea de una ciudad iluminada por la noche.', true, 5, 'Publico', 3, NULL),

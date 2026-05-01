@@ -2,21 +2,20 @@ package com.ignacio_natalia.api.servicios;
 
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.*;
+import com.ignacio_natalia.api.repositorio.PostRepository;
 import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +31,12 @@ public class InterfazDAOImpl implements InterfazDAO {
 
     @Autowired
     private final PuzzleRepository puzzleRepo;
+
+    @Autowired
+    private PostRepository postRepo;
+
+    @Autowired
+    private ImagenService imagenService;
     //private final Logger logger = LoggerFactory.getLogger(InterfazDAOImpl.class);
 
     public InterfazDAOImpl(UsuarioRepository usuarioRepo, PuzzleRepository puzzleRepo) {
@@ -241,8 +246,8 @@ public class InterfazDAOImpl implements InterfazDAO {
 
             case "valoracion":
                 int nuevaValoracion = Integer.parseInt(cambio);
-                if (nuevaValoracion != puzzle.getValoracion()) {
-                    puzzle.setValoracion(nuevaValoracion);
+                if (nuevaValoracion != puzzle.getValoracion_media()) {
+                    puzzle.setValoracion_media(nuevaValoracion);
                     actualizado = true;
                 }
                 break;
@@ -357,6 +362,90 @@ public class InterfazDAOImpl implements InterfazDAO {
 
         }
 
+    }
+    @Override
+    public Post crearPost(Integer idUsuario, String contenido, MultipartFile imagen)
+            throws ArgumentException, DataBaseAccessException, OperationException, IOException {
+
+        // Validación: al menos contenido o imagen
+        if (idUsuario == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        boolean sinContenido = (contenido == null || contenido.isBlank());
+        boolean sinImagen    = (imagen == null || imagen.isEmpty());
+
+        if (sinContenido && sinImagen) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        try {
+
+            Usuario autor = usuarioRepo.findById(idUsuario)
+                    .orElseThrow(() -> new ArgumentException(ErrorCode.INVALID_ARGUMENT));
+
+            Post post = new Post();
+            post.setContenido(sinContenido ? null : contenido.trim());
+            post.setIdUsuario(autor);
+
+            // Procesar imagen si existe — se guarda en disco, BD solo guarda la ruta
+            if (!sinImagen) {
+                String rutaRelativa = imagenService.guardarImagenPost(imagen);
+                post.setImagenUrl(rutaRelativa);
+            }
+
+            Post guardado = postRepo.save(post);
+            if (guardado.getId() == null) throw new OperationException(ErrorCode.OPERATION_ERROR);
+
+            return guardado;
+
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+
+        }
+    }
+
+    @Override
+    public Page<Post> listarPosts(int pagina, int tamanno)
+            throws DataBaseAccessException, DataEmptyAccess {
+
+        if (tamanno <= 0 || tamanno > 50) tamanno = 20; // límite de seguridad
+        if (pagina < 0) pagina = 0;
+
+        try {
+            Page<Post> posts = postRepo.findAllByOrderByFechaCreacionDesc(
+                    PageRequest.of(pagina, tamanno));
+
+            if (posts.isEmpty()) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+            return posts;
+
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+        }
+    }
+
+    @Override
+    public void eliminarPost(Integer idPost, Integer idUsuario)
+            throws ArgumentException, ObjectNotExist, DataBaseAccessException {
+
+        if (idPost == null || idUsuario == null) throw new ArgumentException(ErrorCode.INVALID_ARGUMENT);
+
+        try {
+            Post post = postRepo.findById(idPost)
+                    .orElseThrow(() -> new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND));
+
+            // Solo el propio autor (o un admin) puede borrar — aquí validamos autor
+            if (!post.getIdUsuario().getId().equals(idUsuario))
+                throw new ObjectNotExist(ErrorCode.OBJECT_NOT_FOUND);
+
+            // Eliminar imagen del disco antes de borrar de BD
+            imagenService.eliminarImagen(post.getImagenUrl());
+
+            postRepo.delete(post);
+
+        } catch (org.springframework.dao.DataAccessException ex) {
+            throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
+        }
     }
 
 }
