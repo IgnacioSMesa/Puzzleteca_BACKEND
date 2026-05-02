@@ -102,9 +102,9 @@ public class PuzzleController {
 
     // GET /puzzles/obtenerPuzzles  — todos los puzzles
     @GetMapping("/obtenerPuzzles")
-    public ResponseEntity<?> listarPuzzles() {
+    public ResponseEntity<?> listarPuzzles(@RequestParam(required = false) Puzzle.Estados estado) {
         try {
-            List<Puzzle> puzzles = dao.listarPuzzles();
+            List<Puzzle> puzzles = dao.listarPuzzles(estado);
 
             List<PuzzleDTO> puzzleDTOS = puzzles.stream()
                     .map(p -> PuzzleDTO.fromEntity(p, imageBaseUrl))
@@ -124,9 +124,9 @@ public class PuzzleController {
 
     // GET /puzzles/misPuzzles?idUsuario=X
     @GetMapping("/misPuzzles")
-    public ResponseEntity<?> misPuzzles(@RequestParam Integer idUsuario) {
+    public ResponseEntity<?> misPuzzles(@RequestParam Integer idUsuario, @RequestParam(required = false) Puzzle.Estados estado) {
         try {
-            List<Puzzle> todos = dao.listarPuzzles();
+            List<Puzzle> todos = dao.listarPuzzles(estado);
             List<PuzzleDTO> misPuzzles = todos.stream()
                     .filter(p -> p.getIdUsuario() != null
                             && p.getIdUsuario().getId().equals(idUsuario))

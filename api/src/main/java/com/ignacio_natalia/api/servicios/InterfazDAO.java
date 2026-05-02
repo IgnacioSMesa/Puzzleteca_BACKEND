@@ -90,7 +90,7 @@ public interface InterfazDAO {
      * @throws DataBaseAccessException si ocurre un error de acceso a datos
      * @throws DataEmptyAccess si no existen puzzles
      */
-    List<Puzzle> listarPuzzles() throws DataBaseAccessException, DataEmptyAccess;
+    List<Puzzle> listarPuzzles(Puzzle.Estados estado) throws DataBaseAccessException, DataEmptyAccess;
 
     /**
      * Bloquea o desbloquea un usuario impidiendo su uso dentro del sistema o devolviendolo.

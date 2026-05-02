@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -291,15 +292,22 @@ public class InterfazDAOImpl implements InterfazDAO {
     }
 
     @Override
-    public List<Puzzle> listarPuzzles() throws DataBaseAccessException, DataEmptyAccess {
+    public List<Puzzle> listarPuzzles(Puzzle.Estados estado) throws DataBaseAccessException, DataEmptyAccess {
 
         try {
+            List<Puzzle> lista;
 
-            List<Puzzle> puzzles = puzzleRepo.findAll();
+            if (estado != null) {
+                lista = puzzleRepo.findByEstado(estado);
 
-            if (puzzles.isEmpty()) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+            } else {
+                lista = puzzleRepo.findAll();
 
-            return puzzles;
+            }
+
+            if (lista.isEmpty()) throw new DataEmptyAccess(ErrorCode.DATA_EMPTY);
+
+            return lista;
 
         }  catch (org.springframework.dao.DataAccessException ex) {
 

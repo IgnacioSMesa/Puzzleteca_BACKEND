@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,5 +18,8 @@ public interface PuzzleRepository extends JpaRepository<Puzzle, Integer> {
 
     @Query("SELECT p FROM Puzzle p WHERE p.id = :id_puzzle AND p.idUsuario.id = :id_usuario")
     Optional<Puzzle> findByIdAndUsuarioId(@Param("id_puzzle") Integer id_puzzle, @Param("id_usuario") Integer id_usuario);
+
+    @Query("SELECT p from Puzzle p where p.estado = :estado")
+    List<Puzzle> findByEstado(@Param("estado") Puzzle.Estados estado);
 
 }
