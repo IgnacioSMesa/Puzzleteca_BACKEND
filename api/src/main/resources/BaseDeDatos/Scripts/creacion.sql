@@ -31,7 +31,7 @@ CREATE TABLE puzzle
     valoracion_media   DECIMAL(3, 2) DEFAULT 0,
     total_valoraciones INT           DEFAULT 0,
     estado             text,
-    imagen_url         TEXT          DEFAULT NULL,
+    imagen_url         TEXT          DEFAULT 'puzzles/foto_predeterminada.png',
     id_usuario         INT NOT NULL,
 
     CONSTRAINT fk_puzzle_usuario
@@ -132,7 +132,7 @@ CREATE TABLE post
 (
     id_post           INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     contenido         TEXT,
-    imagen_url        TEXT,
+    imagen_url        TEXT DEFAULT 'puzzles/foto_predeterminada.png',
 
     fecha_creacion    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
 
