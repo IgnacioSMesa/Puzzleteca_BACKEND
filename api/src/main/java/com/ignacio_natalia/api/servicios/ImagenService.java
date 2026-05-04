@@ -142,6 +142,7 @@ public class ImagenService {
         }
     }
 
+    // Para que todas las imagenes tengan el mismo tamaño
     private BufferedImage redimensionar(BufferedImage original) {
         int w = original.getWidth();
         int h = original.getHeight();

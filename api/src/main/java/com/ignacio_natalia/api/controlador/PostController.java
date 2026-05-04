@@ -71,7 +71,6 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 
         } catch (ArgumentException e) {
-            e.printStackTrace();
 
             return ResponseEntity.badRequest()
                     .body(new ErrorResponse("Datos inválidos: se requiere contenido o imagen", 400));
