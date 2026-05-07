@@ -39,19 +39,40 @@ public class ComentarioController {
      */
     @PostMapping("/crearComentario")
     public ResponseEntity<ComentarioPostDTO> crear(@RequestBody ComentarioPostDTO dto) {
-        Post post = postRepository.findById(dto.getIdPost())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post no encontrado"));
 
-        Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+        try {
 
-        ComentarioPost comentario = new ComentarioPost();
-        comentario.setContenido(dto.getContenido());
-        comentario.setIdPost(post);
-        comentario.setIdUsuario(usuario);
+            Post post = postRepository.findById(dto.getIdPost())
+                    .orElseThrow(() ->
+                            new ResponseStatusException(HttpStatus.NOT_FOUND, "Post no encontrado"));
 
-        ComentarioPost guardado = comentarioPostRepository.save(comentario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ComentarioPostDTO.fromEntity(guardado));
+            Usuario usuario = usuarioRepository.findById(dto.getIdUsuario())
+                    .orElseThrow(() ->
+                            new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado"));
+
+            ComentarioPost comentario = new ComentarioPost();
+            comentario.setContenido(dto.getContenido());
+            comentario.setIdPost(post);
+            comentario.setIdUsuario(usuario);
+
+            ComentarioPost guardado = comentarioPostRepository.save(comentario);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(ComentarioPostDTO.fromEntity(guardado));
+
+        } catch (ResponseStatusException e) {
+
+            throw e;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error al crear el comentario",
+                    e
+            );
+        }
     }
 
     /**

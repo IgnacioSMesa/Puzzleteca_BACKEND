@@ -1,7 +1,9 @@
 package com.ignacio_natalia.api.servicios;
 
-import com.ignacio_natalia.api.modelo.Comentario;
-import com.ignacio_natalia.api.repositorio.ComentarioRepository;
+import com.ignacio_natalia.api.modelo.ComentarioPost;
+import com.ignacio_natalia.api.repositorio.ComentarioPostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,17 +11,17 @@ import java.util.List;
 @Service
 public class ComentarioService {
 
-    private final ComentarioRepository repository;
+    private final ComentarioPostRepository repository;
 
-    public ComentarioService(ComentarioRepository repository) {
+    public ComentarioService(ComentarioPostRepository repository) {
         this.repository = repository;
     }
 
-    public Comentario crearComentario(Comentario comentario) {
+    public ComentarioPost crearComentario(ComentarioPost comentario) {
         return repository.save(comentario);
     }
 
-    public List<Comentario> obtenerPorPuzzle(Integer idPuzzle) {
-        return repository.findByIdPuzzleOrderByCreadoEnDesc(idPuzzle);
+    public Page<ComentarioPost> obtenerPorPost(Integer idPost, Pageable pageable) {
+        return repository.findByIdPostIdOrderByFechaCreacionAsc(idPost, pageable);
     }
 }
