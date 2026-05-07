@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 
 /**
  * Comentarios de un Post del foro.
- * Distinto de {@link Comentario}, que son comentarios de un Puzzle.
+ * Mapea la tabla puzzles.comentario, que referencia a id_post.
  */
 @Getter
 @Setter
