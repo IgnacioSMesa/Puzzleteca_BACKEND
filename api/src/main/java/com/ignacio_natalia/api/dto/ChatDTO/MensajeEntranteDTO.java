@@ -14,5 +14,5 @@ import lombok.Setter;
 public class MensajeEntranteDTO {
     private Long idConversacion;
     private String contenido;
-    private String email;  // añadir
+    private Integer idUsuario;
 }

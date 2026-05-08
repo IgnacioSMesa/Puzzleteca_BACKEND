@@ -36,7 +36,7 @@ public class ChatRestController {
 
         // Buscar los usuarios por email
         List<Usuario> usuarios = dto.getParticipantes().stream()
-                .map(email -> usuarioRepo.findUsuarioByEmail(email).orElse(null))
+                .map(id -> usuarioRepo.findById(id).orElse(null))
                 .filter(u -> u != null)
                 .toList();
 

@@ -38,12 +38,10 @@ public class ChatController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chat.enviar")
-    public void enviarMensaje(@Payload MensajeEntranteDTO dto) {  // quita Principal
+    public void enviarMensaje(@Payload MensajeEntranteDTO dto) {
 
-        if (dto.getEmail() == null) return;
-
-        Optional<Usuario> usuarioOpt = usuarioRepo.findUsuarioByEmail(dto.getEmail());
-        if (usuarioOpt.isEmpty()) return;
+        if (dto.getIdUsuario() == null) return;
+        Optional<Usuario> usuarioOpt = usuarioRepo.findById(dto.getIdUsuario());
 
         Usuario usuario = usuarioOpt.get();
 

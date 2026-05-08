@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrearConversacionDTO {
-    private List<String> participantes; // lista de emails
+    private List<Integer> participantes; // lista de ids de usuario
 
 }
