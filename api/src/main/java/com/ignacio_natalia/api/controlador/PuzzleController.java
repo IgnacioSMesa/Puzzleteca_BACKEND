@@ -5,6 +5,7 @@ import com.ignacio_natalia.api.dto.PuzzlesDTO.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
+import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.servicios.ImagenService;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 
@@ -24,13 +25,15 @@ public class PuzzleController {
 
     private final InterfazDAO dao;
     private final ImagenService imagenService;
+    private final PuzzleRepository puzzleRepository;
 
     @Value("${app.image.base-url:http://localhost:8080/imagenes/}")
     private String imageBaseUrl;
 
-    public PuzzleController(InterfazDAO dao, ImagenService imagenService) {
+    public PuzzleController(InterfazDAO dao, ImagenService imagenService, PuzzleRepository puzzleRepository) {
         this.dao = dao;
         this.imagenService = imagenService;
+        this.puzzleRepository = puzzleRepository;
     }
 
     /**
@@ -146,6 +149,20 @@ public class PuzzleController {
         } catch (DataEmptyAccess e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse("No hay puzzles registrados", 404));
+        }
+    }
+
+    @GetMapping("/mejorTiempo")
+    public ResponseEntity<?> mejorTiempo() {
+        try {
+            Integer tiempo = puzzleRepository .obtenerMejorTiempo();
+            if (tiempo == null) {
+                return ResponseEntity.noContent().build(); // 204: no hay puzzles
+            }
+            return ResponseEntity.ok(tiempo);
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ErrorResponse("Error al obtener el mejor tiempo", 500));
         }
     }
 
