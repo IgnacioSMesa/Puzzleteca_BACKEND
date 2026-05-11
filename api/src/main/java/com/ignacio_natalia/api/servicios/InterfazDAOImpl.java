@@ -230,6 +230,13 @@ public class InterfazDAOImpl implements InterfazDAO {
                 }
                 break;
 
+            case "titulo":
+                if (!cambio.equals(puzzle.getTitulo())) {
+                    puzzle.setTitulo(cambio);
+                    actualizado = true;
+                }
+                break;
+
             case "descripcion":
                 if (!cambio.equals(puzzle.getDescripcion())) {
                     puzzle.setDescripcion(cambio);
