@@ -30,7 +30,7 @@ CREATE TABLE puzzle
     color              BOOLEAN,
     valoracion_media   DECIMAL(3, 2) DEFAULT 0,
     total_valoraciones INT           DEFAULT 0,
-    estado             text,
+    estado             TEXT,
     imagen_url         TEXT          DEFAULT 'puzzles/foto_predeterminada.png',
     id_usuario         INT NOT NULL,
 
