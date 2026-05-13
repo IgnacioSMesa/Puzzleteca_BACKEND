@@ -171,7 +171,9 @@ CREATE TABLE comentario
 );
 
 INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario)
-VALUES ('Ignacio', 'Mesa', 'ignaciosanzmesa@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+VALUES ('Ignacio', 'Mesa', 'ignaciosanzmesa@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Admin'),
     ('n', 'n', 'n@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
-        'Usuario');
+        'Usuario'),
+       ('a', 'a', 'a@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
+        'Admin');;

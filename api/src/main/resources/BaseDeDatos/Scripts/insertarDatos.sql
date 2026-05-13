@@ -1,13 +1,13 @@
 SET search_path TO puzzles;
 
 INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario)
-VALUES ('Natalia', 'García', 'natalia@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+VALUES ('Natalia', 'García', 'natalia@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Usuario'),
-       ('Carlos', 'López', 'carlos@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+       ('Carlos', 'López', 'carlos@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Usuario'),
-       ('Sara', 'Martínez', 'sara@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+       ('Sara', 'Martínez', 'sara@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Usuario'),
-       ('Pablo', 'Sánchez', 'pablo@gmail.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+       ('Pablo', 'Sánchez', 'pablo@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Usuario');
 
 INSERT INTO puzzle (titulo, autor, tiempo, piezas, dificultad, descripcion, color, valoracion_media, estado, id_usuario)
