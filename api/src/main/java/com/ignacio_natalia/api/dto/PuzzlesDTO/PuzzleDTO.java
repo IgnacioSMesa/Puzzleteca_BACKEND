@@ -26,7 +26,7 @@ public class PuzzleDTO {
 
     /**
      * URL pública de la imagen (construida por el controlador).
-     * Ej: "https://api.puzzleteca.com/imagenes/puzzles/uuid.jpg"
+     * Ej.: "<a href="https://api.puzzleteca.com/imagenes/puzzles/uuid.jpg">...</a>"
      * Ya NO es base64 — la BD almacena solo la ruta relativa.
      */
     private String imagenUrl;
@@ -79,8 +79,9 @@ public class PuzzleDTO {
         puzzle.setColor(this.color != null && this.color);
         puzzle.setValoracion_media(this.valoracion != null ? this.valoracion : 0);
         puzzle.setEstado(this.estado);
+
         // imagenUrl ya es la ruta relativa tal como la devuelve ImagenService
-        puzzle.setImagen(this.imagenUrl);
+        puzzle.setImagen(this.imagenUrl != null ? this.imagenUrl : "puzzles/foto_predeterminada.png");
 
         if (this.idUsuario != null) {
             com.ignacio_natalia.api.modelo.Usuario u = new com.ignacio_natalia.api.modelo.Usuario();
