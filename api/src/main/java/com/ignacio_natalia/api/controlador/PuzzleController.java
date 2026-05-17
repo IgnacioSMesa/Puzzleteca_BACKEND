@@ -8,6 +8,8 @@ import com.ignacio_natalia.api.repositorio.ErrorResponse;
 import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.servicios.ImagenService;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
+import com.ignacio_natalia.api.dto.UsuariosDTO.UsuarioDTO;
+import com.ignacio_natalia.api.modelo.Usuario;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -65,7 +67,9 @@ public class PuzzleController {
             dto.setDescripcion(descripcion);
             dto.setColor(color);
             dto.setEstado(estado);
-            dto.setIdUsuario(idUsuario);
+            Usuario u = new Usuario();
+            u.setId(idUsuario);
+            dto.setUsuario(UsuarioDTO.fromEntity(u));
             dto.setValoracion(0);
 
             // Procesar imagen si se incluye

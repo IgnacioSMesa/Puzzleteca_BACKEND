@@ -57,7 +57,7 @@ public class Usuario {
     @OneToMany(mappedBy = "idUsuario")
     private Set<ParticipantesConversacion> participantesConversacions = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "idUsuario")
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
     private Set<Puzzle> puzzles = new LinkedHashSet<>();
 
 }

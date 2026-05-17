@@ -99,7 +99,7 @@ public class UsuarioController {
         try {
             List<Usuario> usuarios = interfazDAO.listarUsuarios();
             List<UsuarioDTO> usuarioDTOS = usuarios.stream()
-                    .map(UsuarioDTO::fromEntity)
+                    .map(UsuarioDTO::fromEntityConPuzzles)
                     .toList();
 
             return ResponseEntity.ok(usuarioDTOS);
