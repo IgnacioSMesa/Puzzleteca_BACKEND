@@ -57,4 +57,12 @@ public interface ValoracionPuzzleRepository extends JpaRepository<ValoracionPuzz
     @Query("SELECT v FROM ValoracionPuzzle v WHERE v.puzzle.id = :idPuzzle AND v.usuario.id = :idUsuario")
     Optional<ValoracionPuzzle> findByPuzzleAndUsuario(@Param("idPuzzle")  Integer idPuzzle,
                                                       @Param("idUsuario") Integer idUsuario);
+
+    /** Calcula la media de todas las valoraciones de un puzzle. */
+    @Query("SELECT AVG(v.valoracion) FROM ValoracionPuzzle v WHERE v.puzzle.id = :idPuzzle")
+    Double calcularMedia(@Param("idPuzzle") Integer idPuzzle);
+
+    /** Cuenta el total de valoraciones de un puzzle. */
+    @Query("SELECT COUNT(v) FROM ValoracionPuzzle v WHERE v.puzzle.id = :idPuzzle")
+    Long contarValoraciones(@Param("idPuzzle") Integer idPuzzle);
 }

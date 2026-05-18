@@ -1,15 +1,19 @@
 package com.ignacio_natalia.api.controlador;
 
+import com.ignacio_natalia.api.config.JwtUtil;
 import com.ignacio_natalia.api.dto.PuzzlesDTO.ActualizarPuzzleDTO;
 import com.ignacio_natalia.api.dto.PuzzlesDTO.PuzzleDTO;
 import com.ignacio_natalia.api.exepciones.*;
 import com.ignacio_natalia.api.modelo.Puzzle;
 import com.ignacio_natalia.api.repositorio.ErrorResponse;
 import com.ignacio_natalia.api.repositorio.PuzzleRepository;
+import com.ignacio_natalia.api.repositorio.ValoracionPuzzleRepository;
 import com.ignacio_natalia.api.servicios.ImagenService;
 import com.ignacio_natalia.api.servicios.InterfazDAO;
 import com.ignacio_natalia.api.dto.UsuariosDTO.UsuarioDTO;
 import com.ignacio_natalia.api.modelo.Usuario;
+import io.jsonwebtoken.JwtException;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -28,14 +32,18 @@ public class PuzzleController {
     private final InterfazDAO dao;
     private final ImagenService imagenService;
     private final PuzzleRepository puzzleRepository;
+    private final ValoracionPuzzleRepository valoracionRepo;
 
     @Value("${app.image.base-url:http://localhost:8080/imagenes/}")
     private String imageBaseUrl;
 
-    public PuzzleController(InterfazDAO dao, ImagenService imagenService, PuzzleRepository puzzleRepository) {
+    public PuzzleController(InterfazDAO dao, ImagenService imagenService,
+                            PuzzleRepository puzzleRepository,
+                            ValoracionPuzzleRepository valoracionRepo) {
         this.dao = dao;
         this.imagenService = imagenService;
         this.puzzleRepository = puzzleRepository;
+        this.valoracionRepo = valoracionRepo;
     }
 
     /**
@@ -70,7 +78,7 @@ public class PuzzleController {
             Usuario u = new Usuario();
             u.setId(idUsuario);
             dto.setUsuario(UsuarioDTO.fromEntity(u));
-            dto.setValoracion(0);
+            dto.setValoracion(0.0);
 
             // Procesar imagen si se incluye
             if (imagen != null && !imagen.isEmpty()) {
@@ -109,12 +117,23 @@ public class PuzzleController {
 
     // GET /puzzles/obtenerPuzzles  — todos los puzzles
     @GetMapping("/obtenerPuzzles")
-    public ResponseEntity<?> listarPuzzles(@RequestParam(required = false) Puzzle.Estados estado) {
+    public ResponseEntity<?> listarPuzzles(@RequestParam(required = false) Puzzle.Estados estado,
+                                           HttpServletRequest request) {
         try {
+            // Extraer idUsuario del token JWT (puede ser null si no viene o es inválido)
+            Integer idUsuarioToken = extraerIdUsuarioDelToken(request);
+
             List<Puzzle> puzzles = dao.listarPuzzles(estado);
 
             List<PuzzleDTO> puzzleDTOS = puzzles.stream()
-                    .map(p -> PuzzleDTO.fromEntity(p, imageBaseUrl))
+                    .map(p -> {
+                        PuzzleDTO dto = PuzzleDTO.fromEntity(p, imageBaseUrl);
+                        if (idUsuarioToken != null) {
+                            dto.setYaValoradoPorUsuario(
+                                    valoracionRepo.yaValorado(p.getId(), idUsuarioToken));
+                        }
+                        return dto;
+                    })
                     .toList();
 
             return ResponseEntity.ok(puzzleDTOS);
@@ -221,6 +240,20 @@ public class PuzzleController {
         } catch (OperationException ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ErrorResponse("Error al actualizar el puzzle", 500));
+        }
+    }
+
+    /**
+     * Extrae el id_usuario del token JWT del header Authorization.
+     * Devuelve null si no hay token o si es inválido (el endpoint sigue siendo público).
+     */
+    private Integer extraerIdUsuarioDelToken(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) return null;
+        try {
+            return JwtUtil.getIdUsuario(authHeader.substring(7));
+        } catch (JwtException e) {
+            return null;
         }
     }
 }

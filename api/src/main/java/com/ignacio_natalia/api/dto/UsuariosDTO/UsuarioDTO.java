@@ -73,7 +73,7 @@ public class UsuarioDTO {
         private Puzzle.Estados estado;
         private Integer piezas;
         private Integer tiempo;
-        private Integer valoracion;
+        private Double valoracion;
         private String imagenUrl;
 
         public static PuzzleResumen fromEntity(Puzzle puzzle) {

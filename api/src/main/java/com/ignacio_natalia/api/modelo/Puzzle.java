@@ -47,7 +47,10 @@ public class Puzzle {
     private boolean color;
 
     @Column(name = "valoracion_media")
-    private int valoracion_media;
+    private double valoracion_media;
+
+    @Column(name = "total_valoraciones")
+    private int total_valoraciones;
 
     // Ahora guarda el base64 directamente en BD, no una ruta
     @Column(name = "imagen_url", columnDefinition = "TEXT")

@@ -21,7 +21,7 @@ public class PuzzleDTO {
     private Puzzle.Dificultades dificultad;
     private String descripcion;
     private Boolean color;
-    private Integer valoracion;
+    private Double valoracion;
     private Puzzle.Estados estado;
     /** Usuario propietario del puzzle (id, nombre, apellido, email, tipoUsuario). */
     private UsuarioDTO usuario;
@@ -31,6 +31,9 @@ public class PuzzleDTO {
      * Ya NO es base64 — la BD almacena solo la ruta relativa.
      */
     private String imagenUrl;
+
+    /** True si el usuario autenticado ya valoró este puzzle. */
+    private boolean yaValoradoPorUsuario;
 
     public static PuzzleDTO fromEntity(Puzzle puzzle, String baseImageUrl) {
         if (puzzle == null) return null;
@@ -75,7 +78,7 @@ public class PuzzleDTO {
         puzzle.setDificultad(this.dificultad);
         puzzle.setDescripcion(this.descripcion);
         puzzle.setColor(this.color != null && this.color);
-        puzzle.setValoracion_media(this.valoracion != null ? this.valoracion : 0);
+        puzzle.setValoracion_media(this.valoracion != null ? this.valoracion : 0.0);
         puzzle.setEstado(this.estado);
         puzzle.setImagen(this.imagenUrl != null ? this.imagenUrl : "puzzles/foto_predeterminada.png");
 

@@ -9,6 +9,8 @@ import com.ignacio_natalia.api.modelo.ValoracionPuzzle;
 import com.ignacio_natalia.api.repositorio.PuzzleRepository;
 import com.ignacio_natalia.api.repositorio.UsuarioRepository;
 import com.ignacio_natalia.api.repositorio.ValoracionPuzzleRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class RankingService {
     private final ValoracionPuzzleRepository valoracionRepo;
     private final PuzzleRepository           puzzleRepo;
     private final UsuarioRepository          usuarioRepo;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public RankingService(ValoracionPuzzleRepository valoracionRepo,
                           PuzzleRepository puzzleRepo,
@@ -81,6 +86,18 @@ public class RankingService {
 
         try {
             valoracionRepo.save(valoracion);
+
+            // Flush para que la nueva valoración sea visible en la query AVG
+            entityManager.flush();
+
+            // Recalcular media y total desde la tabla de valoraciones
+            Double media = valoracionRepo.calcularMedia(dto.getIdPuzzle());
+            Long total   = valoracionRepo.contarValoraciones(dto.getIdPuzzle());
+
+            puzzle.setValoracion_media(media != null ? media : 0.0);
+            puzzle.setTotal_valoraciones(total != null ? total.intValue() : 0);
+            puzzleRepo.save(puzzle);
+
         } catch (Exception e) {
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, e);
         }
