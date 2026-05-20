@@ -37,8 +37,6 @@ public class PostDTO {
     private Integer idUsuario;
     private String nombreUsuario;
 
-    // -------------------------------------------------------------------------
-
     public static PostDTO fromEntity(Post post, String baseImageUrl) {
         if (post == null) return null;
 

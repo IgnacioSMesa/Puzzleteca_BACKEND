@@ -38,7 +38,6 @@ public class InterfazDAOImpl implements InterfazDAO {
 
     @Autowired
     private ImagenService imagenService;
-    //private final Logger logger = LoggerFactory.getLogger(InterfazDAOImpl.class);
 
     public InterfazDAOImpl(UsuarioRepository usuarioRepo, PuzzleRepository puzzleRepo) {
         this.usuarioRepo = usuarioRepo;
@@ -293,7 +292,7 @@ public class InterfazDAOImpl implements InterfazDAO {
 
         } catch (org.springframework.dao.DataAccessException ex) {
 
-            // Capturo una excepcion de spring en caso de que falle al entrar a la base de datos
+            // Captura una excepcion de spring en caso de que falle al entrar a la base de datos
             throw new DataBaseAccessException(ErrorCode.DATA_ACCESS_ERROR, ex);
         }
     }

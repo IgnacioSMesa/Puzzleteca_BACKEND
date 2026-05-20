@@ -1,6 +1,14 @@
 SET search_path TO puzzles;
 
 INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario)
+VALUES ('Ignacio', 'Mesa', 'ignaciosanzmesa@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
+        'Admin'),
+       ('n', 'n', 'n@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
+        'Usuario'),
+       ('a', 'a', 'a@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
+        'Admin');;
+
+INSERT INTO usuario (nombre, apellido, email, contrasenna, tipousuario)
 VALUES ('Natalia', 'García', 'natalia@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',
         'Usuario'),
        ('Carlos', 'López', 'carlos@gmail.com', '$2a$10$jXbGrZ5BlBECqM.ysP1F8OwcqDwHdY09D/P5zKKsqNsWfIss8xOE2',

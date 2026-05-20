@@ -63,14 +63,13 @@ public class RankingController {
 
         Integer idUsuarioToken;
         try {
-            String token = authHeader.substring(7); // quitar "Bearer "
+            String token = authHeader.substring(7);
             idUsuarioToken = JwtUtil.getIdUsuario(token);
         } catch (JwtException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Token inválido o expirado");
         }
 
-        // Sobreescribir el idUsuario del DTO con el del token (fuente de verdad)
         dto.setIdUsuario(idUsuarioToken);
 
         rankingService.valorarPuzzle(dto);

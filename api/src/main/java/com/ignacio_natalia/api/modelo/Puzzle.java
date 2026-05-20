@@ -52,7 +52,6 @@ public class Puzzle {
     @Column(name = "total_valoraciones")
     private int total_valoraciones;
 
-    // Ahora guarda el base64 directamente en BD, no una ruta
     @Column(name = "imagen_url", columnDefinition = "TEXT")
     private String imagen;
 
